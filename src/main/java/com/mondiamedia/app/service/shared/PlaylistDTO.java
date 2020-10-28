@@ -1,5 +1,6 @@
 package com.mondiamedia.app.service.shared;
 
+import javax.persistence.Column;
 import lombok.Data;
 
 /**
@@ -11,6 +12,7 @@ import lombok.Data;
 public class PlaylistDTO {
   private String id;
   private String playListId;
+  private String email;
   private String title;
   private String description;
 }

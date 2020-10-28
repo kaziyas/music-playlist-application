@@ -9,6 +9,7 @@ import lombok.Data;
  */
 @Data
 public class PlaylistRequestModel {
+  private String email;
   private String title;
   private String description;
 }

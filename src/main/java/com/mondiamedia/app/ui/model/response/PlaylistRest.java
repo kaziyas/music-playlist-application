@@ -10,6 +10,7 @@ import lombok.Data;
 @Data
 public class PlaylistRest {
   private String playListId;
+  private String email;
   private String title;
   private String description;
 }
