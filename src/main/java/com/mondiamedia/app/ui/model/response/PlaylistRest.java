@@ -1,5 +1,6 @@
 package com.mondiamedia.app.ui.model.response;
 
+import java.util.List;
 import lombok.Data;
 
 /**
@@ -13,4 +14,5 @@ public class PlaylistRest {
   private String email;
   private String title;
   private String description;
+  private List<ArticleRest> articles;
 }

@@ -1,13 +1,18 @@
 package com.mondiamedia.app.ui.controller;
 
+import com.mondiamedia.app.exceptions.ArticleServiceException;
 import com.mondiamedia.app.exceptions.PlaylistServiceException;
 import com.mondiamedia.app.service.PlaylistService;
+import com.mondiamedia.app.service.shared.ArticleDTO;
 import com.mondiamedia.app.service.shared.PlaylistDTO;
+import com.mondiamedia.app.ui.model.request.ArticleRequestModel;
 import com.mondiamedia.app.ui.model.request.PlaylistRequestModel;
 import com.mondiamedia.app.ui.model.response.ErrorMessages;
 import com.mondiamedia.app.ui.model.response.OperationStatusModel;
 import com.mondiamedia.app.ui.model.response.PlaylistRest;
 import com.mondiamedia.app.ui.model.response.RequestOperationStatus;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -82,5 +87,43 @@ public class PlaylistController {
     returnValue.setOperationName(RequestOperationName.DELETE.name());
     returnValue.setOperationResult(RequestOperationStatus.SUCCESS.name());
     return returnValue;
+  }
+
+  @PutMapping(
+      path = "/{id}/articles",
+      consumes = {MediaType.APPLICATION_JSON_VALUE},
+      produces = {MediaType.APPLICATION_JSON_VALUE})
+  public PlaylistRest addArticle(
+      @PathVariable String id, @RequestBody ArticleRequestModel articleRequestModel) {
+    if (articleRequestModel.getAlbumName().isEmpty()
+        || articleRequestModel.getArtistName().isEmpty()
+        || articleRequestModel.getTrackName().isEmpty())
+      throw new ArticleServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
+    ModelMapper modelMapper = new ModelMapper();
+
+    PlaylistDTO playlistDTO = playlistService.getPlaylistByPlaylistId(id);
+    ArticleDTO articleDTO = modelMapper.map(articleRequestModel, ArticleDTO.class);
+    playlistDTO.getArticles().add(articleDTO);
+
+    playlistDTO = playlistService.updatePlayList(id, playlistDTO);
+    return modelMapper.map(playlistDTO, PlaylistRest.class);
+  }
+
+  @PutMapping(
+      path = "/{id}/articles/{articleId}",
+      consumes = {MediaType.APPLICATION_JSON_VALUE},
+      produces = {MediaType.APPLICATION_JSON_VALUE})
+  public PlaylistRest removeArticle(
+      @PathVariable String id, @PathVariable String articleId) {
+    ModelMapper modelMapper = new ModelMapper();
+
+    PlaylistDTO playlistDTO = playlistService.getPlaylistByPlaylistId(id);
+    List<ArticleDTO> articleDTO = playlistDTO.getArticles().stream()
+        .filter(article -> article.getArticleId().equals(articleId)).collect(
+            Collectors.toList());
+    playlistDTO.getArticles().removeAll(articleDTO);
+
+    playlistDTO = playlistService.updatePlayList(id, playlistDTO);
+    return modelMapper.map(playlistDTO, PlaylistRest.class);
   }
 }

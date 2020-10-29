@@ -1,7 +1,8 @@
 package com.mondiamedia.app.service.shared;
 
-import javax.persistence.Column;
+import java.util.List;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Yaser Kazerooni (yaser.kazerooni@gmail.com)
@@ -9,10 +10,12 @@ import lombok.Data;
  * @since 1.0
  */
 @Data
+@NoArgsConstructor
 public class PlaylistDTO {
-  private String id;
+  private long id;
   private String playListId;
   private String email;
   private String title;
   private String description;
+  private List<ArticleDTO> articles;
 }

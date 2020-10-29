@@ -1,11 +1,17 @@
 package com.mondiamedia.app.service.impl;
 
 import com.mondiamedia.app.exceptions.PlaylistServiceException;
+import com.mondiamedia.app.io.entity.ArticleEntity;
 import com.mondiamedia.app.io.entity.PlaylistEntity;
 import com.mondiamedia.app.io.repository.PlaylistRepository;
 import com.mondiamedia.app.service.PlaylistService;
+import com.mondiamedia.app.service.shared.ArticleDTO;
 import com.mondiamedia.app.service.shared.PlaylistDTO;
 import com.mondiamedia.app.service.shared.Utils;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,8 +39,7 @@ public class PlaylistServiceImpl implements PlaylistService {
     playlistEntity.setPlaylistId(publicPlaylistId);
 
     PlaylistEntity storedPlaylistDetail = playlistRepository.save(playlistEntity);
-    PlaylistDTO returnValue = modelMapper.map(storedPlaylistDetail, PlaylistDTO.class);
-    return returnValue;
+    return modelMapper.map(storedPlaylistDetail, PlaylistDTO.class);
   }
 
   @Override
@@ -44,22 +49,38 @@ public class PlaylistServiceImpl implements PlaylistService {
       throw new PlaylistServiceException("Playlist with ID: " + id + " not found");
 
     ModelMapper modelMapper = new ModelMapper();
-    PlaylistDTO playlistDTO = modelMapper.map(playlistEntity, PlaylistDTO.class);
-    return playlistDTO;
+    return modelMapper.map(playlistEntity, PlaylistDTO.class);
   }
 
   @Override
-  public PlaylistDTO updatePlayList(String playlistId, PlaylistDTO playlistDTO) {
-    PlaylistEntity playlistEntity = playlistRepository.findByPlaylistId(playlistId);
+  public PlaylistDTO updatePlayList(String playlistId, PlaylistDTO playlist) {
+    ModelMapper modelMapper = new ModelMapper();
+    List<ArticleEntity> articleEntities = new ArrayList<>();
 
+    PlaylistEntity playlistEntity = playlistRepository.findByPlaylistId(playlistId);
     if (playlistEntity == null)
       throw new PlaylistServiceException("Playlist with ID: " + playlistId + " not found");
 
-    playlistEntity.setTitle(playlistDTO.getTitle());
-    playlistEntity.setDescription(playlistDTO.getDescription());
+    final List<ArticleDTO> articles = playlist.getArticles();
+    if (articles != null) {
+      IntStream.range(0, articles.size()).forEach(i -> {
+        ArticleDTO article = articles.get(i);
+        article.setArticleId(utils.generateArticleId(30));
+        article.setPlaylistDetails(playlist);
+        articles.set(i, article);
+      });
+
+      articleEntities = articles.stream()
+          .map(articleDTO -> modelMapper.map(articleDTO, ArticleEntity.class))
+          .collect(Collectors.toList());
+    }
+
+    playlistEntity.setTitle(playlist.getTitle());
+    playlistEntity.setDescription(playlist.getDescription());
+    playlistEntity.setArticles(articleEntities);
+
     PlaylistEntity updatePlayListEntity = playlistRepository.save(playlistEntity);
 
-    ModelMapper modelMapper = new ModelMapper();
     return modelMapper.map(updatePlayListEntity, PlaylistDTO.class);
   }
 

@@ -15,7 +15,11 @@ public class Utils {
   private final Random random = new SecureRandom();
   private final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-  public String generatePlaylistId (int length) {
+  public String generatePlaylistId(int length) {
+    return generateRandomString(length);
+  }
+
+  public String generateArticleId(int length) {
     return generateRandomString(length);
   }
 

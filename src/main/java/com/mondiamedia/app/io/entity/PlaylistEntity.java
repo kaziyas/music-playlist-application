@@ -1,11 +1,15 @@
 package com.mondiamedia.app.io.entity;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Yaser Kazerooni (yaser.kazerooni@gmail.com)
@@ -13,10 +17,11 @@ import lombok.Data;
  * @since 1.0
  */
 @Data
+@NoArgsConstructor
 @Entity(name = "playlists")
 public class PlaylistEntity implements Serializable {
 
-  @Id @GeneratedValue private Long id;
+  @Id @GeneratedValue private long id;
 
   @Column(nullable = false, length = 30)
   private String playlistId;
@@ -29,4 +34,7 @@ public class PlaylistEntity implements Serializable {
 
   @Column(length = 120)
   private String description;
+
+  @OneToMany(mappedBy = "playlistDetails", cascade = CascadeType.ALL)
+  private List<ArticleEntity> articles;
 }
