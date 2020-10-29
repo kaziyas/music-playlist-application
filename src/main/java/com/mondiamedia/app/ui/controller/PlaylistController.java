@@ -2,18 +2,23 @@ package com.mondiamedia.app.ui.controller;
 
 import com.mondiamedia.app.exceptions.ArticleServiceException;
 import com.mondiamedia.app.exceptions.PlaylistServiceException;
+import com.mondiamedia.app.service.ArticleService;
 import com.mondiamedia.app.service.PlaylistService;
 import com.mondiamedia.app.service.shared.ArticleDTO;
 import com.mondiamedia.app.service.shared.PlaylistDTO;
 import com.mondiamedia.app.ui.model.request.ArticleRequestModel;
 import com.mondiamedia.app.ui.model.request.PlaylistRequestModel;
+import com.mondiamedia.app.ui.model.response.ArticleRest;
 import com.mondiamedia.app.ui.model.response.ErrorMessages;
 import com.mondiamedia.app.ui.model.response.OperationStatusModel;
 import com.mondiamedia.app.ui.model.response.PlaylistRest;
 import com.mondiamedia.app.ui.model.response.RequestOperationStatus;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,6 +40,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class PlaylistController {
 
   @Autowired private PlaylistService playlistService;
+
+  @Autowired private ArticleService articleService;
 
   @GetMapping(
       path = "/{id}",
@@ -113,17 +120,32 @@ public class PlaylistController {
       path = "/{id}/articles/{articleId}",
       consumes = {MediaType.APPLICATION_JSON_VALUE},
       produces = {MediaType.APPLICATION_JSON_VALUE})
-  public PlaylistRest removeArticle(
-      @PathVariable String id, @PathVariable String articleId) {
+  public PlaylistRest removeArticle(@PathVariable String id, @PathVariable String articleId) {
     ModelMapper modelMapper = new ModelMapper();
 
     PlaylistDTO playlistDTO = playlistService.getPlaylistByPlaylistId(id);
-    List<ArticleDTO> articleDTO = playlistDTO.getArticles().stream()
-        .filter(article -> article.getArticleId().equals(articleId)).collect(
-            Collectors.toList());
+    List<ArticleDTO> articleDTO =
+        playlistDTO.getArticles().stream()
+            .filter(article -> article.getArticleId().equals(articleId))
+            .collect(Collectors.toList());
     playlistDTO.getArticles().removeAll(articleDTO);
 
     playlistDTO = playlistService.updatePlayList(id, playlistDTO);
     return modelMapper.map(playlistDTO, PlaylistRest.class);
+  }
+
+  @GetMapping(
+      path = "/{id}/articles",
+      produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_VALUE})
+  public List<ArticleRest> getArticles(@PathVariable String id) {
+    List<ArticleRest> returnValue = new ArrayList<>();
+    List<ArticleDTO> articles = articleService.getArticles(id);
+
+    if (articles != null && !articles.isEmpty()) {
+      Type listType = new TypeToken<List<ArticleRest>>() {}.getType();
+      returnValue = new ModelMapper().map(articles, listType);
+    }
+
+    return returnValue;
   }
 }
