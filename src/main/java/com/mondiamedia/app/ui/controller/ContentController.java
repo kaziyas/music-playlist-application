@@ -7,6 +7,7 @@ import com.mondiamedia.app.ui.model.response.ArticleRest;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class ContentController {
       produces = {MediaType.APPLICATION_JSON_VALUE})
   public List<ArticleRest> searchArticle(@RequestBody ArticleRequestModel articleRequestModel) {
     List<ArticleRest> returnValue = new ArrayList<>();
-    List<ArticleDTO> articles = searchService.searchArticle();
+    List<ArticleDTO> articles = searchService.searchArticle(createQueryString(articleRequestModel));
 
     if (articles != null && !articles.isEmpty()) {
       Type listType = new TypeToken<List<ArticleRest>>() {}.getType();
@@ -41,5 +42,13 @@ public class ContentController {
     }
 
     return returnValue;
+  }
+
+  private String createQueryString (ArticleRequestModel articleRequestModel) {
+    StringJoiner joiner = new StringJoiner(" , ");
+    joiner.add(articleRequestModel.getArtistName());
+    joiner.add(articleRequestModel.getTrackName());
+
+    return joiner.toString();
   }
 }

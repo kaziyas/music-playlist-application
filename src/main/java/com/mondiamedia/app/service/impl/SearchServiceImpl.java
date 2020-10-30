@@ -21,6 +21,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * @author Yaser Kazerooni (yaser.kazerooni@gmail.com)
+ * @version 1.0 2020.10.29
+ * @since 1.0
+ */
 @Service
 public class SearchServiceImpl implements SearchService {
   @Autowired private RestTemplate restTemplate;
@@ -30,14 +35,15 @@ public class SearchServiceImpl implements SearchService {
     return builder.build();
   }
 
-  public List<ArticleDTO> searchArticle() {
+  public List<ArticleDTO> searchArticle(String query) {
     String json = "";
     try {
       // request url
       String url =
-          "https://staging-gateway.mondiamedia.com/v1/api/content/search?q=sandra&offset=0&limit=10";
+          "https://staging-gateway.mondiamedia.com/v1/api/content/search?q=" + query
+              + "&offset=0&limit=10";
 
-      String token = "C5d5579d1-5f29-4398-aa8a-1f984236e9ea";
+      String token = "C7596e01e-799c-4ac5-9cd3-955c35f7246c";
 
       // create headers
       HttpHeaders headers = new HttpHeaders();
