@@ -102,8 +102,7 @@ public class PlaylistController {
       produces = {MediaType.APPLICATION_JSON_VALUE})
   public PlaylistRest addArticle(
       @PathVariable String id, @RequestBody ArticleRequestModel articleRequestModel) {
-    if (articleRequestModel.getAlbumName().isEmpty()
-        || articleRequestModel.getArtistName().isEmpty()
+    if (articleRequestModel.getArtistName().isEmpty()
         || articleRequestModel.getTrackName().isEmpty())
       throw new ArticleServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
     ModelMapper modelMapper = new ModelMapper();

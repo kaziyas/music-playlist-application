@@ -1,6 +1,7 @@
 package com.mondiamedia.app.service.shared;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Yaser Kazerooni (yaser.kazerooni@gmail.com)
@@ -8,11 +9,17 @@ import lombok.Data;
  * @since 1.0
  */
 @Data
+@NoArgsConstructor
 public class ArticleDTO {
   private long id;
   private String articleId;
   private String trackName;
   private String artistName;
-  private String albumName;
   private PlaylistDTO playlistDetails;
+
+  public ArticleDTO(String articleId, String trackName, String artistName) {
+    this.articleId = articleId;
+    this.trackName = trackName;
+    this.artistName = artistName;
+  }
 }

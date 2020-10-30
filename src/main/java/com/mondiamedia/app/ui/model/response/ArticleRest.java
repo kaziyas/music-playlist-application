@@ -12,5 +12,4 @@ public class ArticleRest {
   private String articleId;
   private String trackName;
   private String artistName;
-  private String albumName;
 }

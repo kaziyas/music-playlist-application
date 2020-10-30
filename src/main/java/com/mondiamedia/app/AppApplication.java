@@ -1,7 +1,9 @@
 package com.mondiamedia.app;
 
+import com.mondiamedia.app.security.AppProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 /**
  * @author Yaser Kazerooni (yaser.kazerooni@gmail.com)
@@ -15,4 +17,13 @@ public class AppApplication {
     SpringApplication.run(AppApplication.class, args);
   }
 
+  @Bean(name="AppProperties")
+  public AppProperties appProperties() {
+    return new AppProperties();
+  }
+
+  @Bean
+  public SpringApplicationContext springApplicationContext() {
+    return new SpringApplicationContext();
+  }
 }

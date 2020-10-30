@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 public class ArticleRequestModel {
+  private String articleId;
   private String trackName;
   private String artistName;
-  private String albumName;
 }

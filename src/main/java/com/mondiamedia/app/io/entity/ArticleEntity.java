@@ -31,9 +31,6 @@ public class ArticleEntity implements Serializable {
   @Column(nullable = false, length = 50)
   private String artistName;
 
-  @Column(nullable = false, length = 50)
-  private String albumName;
-
   @ManyToOne
   @JoinColumn(name = "playlists_id")
   private PlaylistEntity playlistDetails;
