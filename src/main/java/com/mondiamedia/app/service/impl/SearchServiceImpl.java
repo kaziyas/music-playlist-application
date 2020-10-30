@@ -43,11 +43,9 @@ public class SearchServiceImpl implements SearchService {
           "https://staging-gateway.mondiamedia.com/v1/api/content/search?q=" + query
               + "&offset=0&limit=10";
 
-      String token = "C7596e01e-799c-4ac5-9cd3-955c35f7246c";
-
       // create headers
       HttpHeaders headers = new HttpHeaders();
-      headers.add(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
+      headers.add(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + getValidToken());
       headers.add(SecurityConstants.HEADER_PARAMETER, SecurityConstants.getTokenSecret());
 
       // create request
@@ -63,11 +61,39 @@ public class SearchServiceImpl implements SearchService {
     } catch (Exception ex) {
       ex.printStackTrace();
     }
-    return parseJsonString(json);
+    return parseArticlesResponse(json);
   }
 
-  private List<ArticleDTO> parseJsonString(String json) {
+  private String getValidToken() {
+    String token = "";
+    try {
+      String url = "https://staging-gateway.mondiamedia.com/v0/api/gateway/token/client";
+
+      HttpHeaders headers = new HttpHeaders();
+
+      headers.add(SecurityConstants.HEADER_PARAMETER, SecurityConstants.getTokenSecret());
+
+      HttpEntity request = new HttpEntity(headers);
+      ResponseEntity<String> response =
+          restTemplate.exchange(url, HttpMethod.POST, request, String.class);
+
+      token = parseTokenResponse(response.getBody());
+
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+    return token;
+  }
+
+  private String parseTokenResponse(String json) {
+    JsonReader jsonReader = Json.createReader(new StringReader(json));
+    JsonObject j = jsonReader.readObject();
+    return j.getString("accessToken");
+  }
+
+  private List<ArticleDTO> parseArticlesResponse(String json) {
     List<ArticleDTO> articles = new ArrayList<>();
+
     JsonReader jsonReader = Json.createReader(new StringReader(json));
     JsonArray jsonArray = jsonReader.readArray();
     ListIterator l = jsonArray.listIterator();
