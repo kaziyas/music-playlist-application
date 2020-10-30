@@ -1,5 +1,6 @@
 package com.mondiamedia.app.ui.controller;
 
+import com.mondiamedia.app.service.ArticleService;
 import com.mondiamedia.app.service.SearchService;
 import com.mondiamedia.app.service.shared.ArticleDTO;
 import com.mondiamedia.app.ui.model.request.ArticleRequestModel;
@@ -28,6 +29,8 @@ public class ContentController {
 
   @Autowired SearchService searchService;
 
+  @Autowired ArticleService articleService;
+
   @GetMapping(
       path = "/search",
       consumes = {MediaType.APPLICATION_JSON_VALUE},
@@ -36,15 +39,16 @@ public class ContentController {
     List<ArticleRest> returnValue = new ArrayList<>();
     List<ArticleDTO> articles = searchService.searchArticle(createQueryString(articleRequestModel));
 
+    articleService.saveSearchedArticles(articles);
+
     if (articles != null && !articles.isEmpty()) {
       Type listType = new TypeToken<List<ArticleRest>>() {}.getType();
       returnValue = new ModelMapper().map(articles, listType);
     }
-
     return returnValue;
   }
 
-  private String createQueryString (ArticleRequestModel articleRequestModel) {
+  private String createQueryString(ArticleRequestModel articleRequestModel) {
     StringJoiner joiner = new StringJoiner(" , ");
     joiner.add(articleRequestModel.getArtistName());
     joiner.add(articleRequestModel.getTrackName());

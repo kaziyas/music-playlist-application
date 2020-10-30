@@ -12,4 +12,6 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface ArticleRepository extends CrudRepository<ArticleEntity, Long> {
   List<ArticleEntity> findAllByPlaylistDetails(PlaylistEntity playlistEntity);
+
+  ArticleEntity findByArticleId(String articleId);
 }

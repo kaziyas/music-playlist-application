@@ -1,5 +1,6 @@
 package com.mondiamedia.app.service.impl;
 
+import com.mondiamedia.app.exceptions.ArticleServiceException;
 import com.mondiamedia.app.io.entity.ArticleEntity;
 import com.mondiamedia.app.io.entity.PlaylistEntity;
 import com.mondiamedia.app.io.repository.ArticleRepository;
@@ -20,11 +21,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
-  @Autowired
-  private PlaylistRepository playlistRepository;
+  @Autowired private PlaylistRepository playlistRepository;
 
-  @Autowired
-  private ArticleRepository articleRepository;
+  @Autowired private ArticleRepository articleRepository;
 
   @Override
   public List<ArticleDTO> getArticles(String playlistId) {
@@ -35,10 +34,36 @@ public class ArticleServiceImpl implements ArticleService {
 
     if (playlistEntity == null) return returnValue;
 
-    final List<ArticleEntity> articles = articleRepository
-        .findAllByPlaylistDetails(playlistEntity);
+    final List<ArticleEntity> articles = articleRepository.findAllByPlaylistDetails(playlistEntity);
     for (ArticleEntity articleEntity : articles) {
       returnValue.add(modelMapper.map(articleEntity, ArticleDTO.class));
+    }
+
+    return returnValue;
+  }
+
+  @Override
+  public ArticleDTO getArticleByArticleId(String articleId) {
+    ArticleEntity articleEntity = articleRepository.findByArticleId(articleId);
+    if (articleEntity == null)
+      throw new ArticleServiceException("Article with ID: " + articleId + " not found");
+
+    ModelMapper modelMapper = new ModelMapper();
+    return modelMapper.map(articleEntity, ArticleDTO.class);
+  }
+
+  @Override
+  public List<ArticleDTO> saveSearchedArticles(List<ArticleDTO> articles) {
+    List<ArticleDTO> returnValue = new ArrayList<>();
+    ModelMapper modelMapper = new ModelMapper();
+
+    for (ArticleDTO articleDTO : articles) {
+      if (articleRepository.findByArticleId(articleDTO.getArticleId()) != null)
+        continue; // duplicate article
+
+      ArticleEntity entity = modelMapper.map(articleDTO, ArticleEntity.class);
+      ArticleEntity storedArticle = articleRepository.save(entity);
+      returnValue.add(modelMapper.map(storedArticle, ArticleDTO.class));
     }
 
     return returnValue;

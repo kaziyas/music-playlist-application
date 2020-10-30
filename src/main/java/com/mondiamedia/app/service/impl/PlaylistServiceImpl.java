@@ -65,7 +65,7 @@ public class PlaylistServiceImpl implements PlaylistService {
     if (articles != null) {
       IntStream.range(0, articles.size()).forEach(i -> {
         ArticleDTO article = articles.get(i);
-        article.setArticleId(utils.generateArticleId(30));
+//        article.setArticleId(utils.generateArticleId(30));
         article.setPlaylistDetails(playlist);
         articles.set(i, article);
       });

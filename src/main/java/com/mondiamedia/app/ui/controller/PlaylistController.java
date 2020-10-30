@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -98,17 +99,20 @@ public class PlaylistController {
 
   @PutMapping(
       path = "/{id}/articles",
-      consumes = {MediaType.APPLICATION_JSON_VALUE},
       produces = {MediaType.APPLICATION_JSON_VALUE})
   public PlaylistRest addArticle(
-      @PathVariable String id, @RequestBody ArticleRequestModel articleRequestModel) {
+      @PathVariable String id, @RequestParam String articleId) {
+/*
     if (articleRequestModel.getArtistName().isEmpty()
         || articleRequestModel.getTrackName().isEmpty())
       throw new ArticleServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
+    ArticleDTO articleDTO = modelMapper.map(articleRequestModel, ArticleDTO.class);
+*/
     ModelMapper modelMapper = new ModelMapper();
 
     PlaylistDTO playlistDTO = playlistService.getPlaylistByPlaylistId(id);
-    ArticleDTO articleDTO = modelMapper.map(articleRequestModel, ArticleDTO.class);
+    ArticleDTO articleDTO = articleService.getArticleByArticleId(articleId);
+
     playlistDTO.getArticles().add(articleDTO);
 
     playlistDTO = playlistService.updatePlayList(id, playlistDTO);
@@ -117,7 +121,6 @@ public class PlaylistController {
 
   @PutMapping(
       path = "/{id}/articles/{articleId}",
-      consumes = {MediaType.APPLICATION_JSON_VALUE},
       produces = {MediaType.APPLICATION_JSON_VALUE})
   public PlaylistRest removeArticle(@PathVariable String id, @PathVariable String articleId) {
     ModelMapper modelMapper = new ModelMapper();
