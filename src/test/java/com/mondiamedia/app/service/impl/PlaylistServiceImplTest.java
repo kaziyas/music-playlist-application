@@ -78,12 +78,7 @@ public class PlaylistServiceImplTest {
   @Test
   final void testCreatePlaylist_CreatePlaylistServiceException() {
     when(playlistRepository.findByTitle(anyString())).thenReturn(playlistEntity);
-    PlaylistDTO playlistDTO = new PlaylistDTO();
-    playlistDTO.setTitle("My best pop songs");
-    playlistDTO.setEmail("yaser.kazerooni@gmail.com");
-    playlistDTO.setPlayListId(PLAYLIST_ID);
-    playlistDTO.setDescription("The best pop musics");
-    playlistDTO.setArticles(getArticlesDTO());
+    PlaylistDTO playlistDTO = getPlaylistDTO();
 
     assertThrows(
         PlaylistServiceException.class,
@@ -92,18 +87,25 @@ public class PlaylistServiceImplTest {
         });
   }
 
-  @Test
-  final void testCreatePlaylist() {
-    when(playlistRepository.findByTitle(anyString())).thenReturn(null);
-    when(utils.generatePlaylistId(anyInt())).thenReturn(PLAYLIST_ID);
-    when(playlistRepository.save(any(PlaylistEntity.class))).thenReturn(playlistEntity);
-
+  private PlaylistDTO getPlaylistDTO() {
     PlaylistDTO playlistDTO = new PlaylistDTO();
     playlistDTO.setTitle("My best pop songs");
     playlistDTO.setEmail("yaser.kazerooni@gmail.com");
     playlistDTO.setPlayListId(PLAYLIST_ID);
     playlistDTO.setDescription("The best pop musics");
     playlistDTO.setArticles(getArticlesDTO());
+    playlistDTO.getArticles().get(0).setPlaylistDetails(playlistDTO);
+    playlistDTO.getArticles().get(1).setPlaylistDetails(playlistDTO);
+    return playlistDTO;
+  }
+
+  @Test
+  final void testCreatePlaylist() {
+    when(playlistRepository.findByTitle(anyString())).thenReturn(null);
+    when(utils.generatePlaylistId(anyInt())).thenReturn(PLAYLIST_ID);
+    when(playlistRepository.save(any(PlaylistEntity.class))).thenReturn(playlistEntity);
+
+    PlaylistDTO playlistDTO = getPlaylistDTO();
 
     PlaylistDTO storedPlaylistDetails = playlistService.createPlaylist(playlistDTO);
     assertNotNull(storedPlaylistDetails);
@@ -116,10 +118,12 @@ public class PlaylistServiceImplTest {
 
   private List<ArticleDTO> getArticlesDTO() {
     ArticleDTO articleDTO = new ArticleDTO();
+    articleDTO.setArticleId("9434679");
     articleDTO.setArtistName("Sandra");
     articleDTO.setTrackName("Hiroshima");
 
     ArticleDTO articleDTO1 = new ArticleDTO();
+    articleDTO1.setArtistName("11744375");
     articleDTO1.setArtistName("Sandra");
     articleDTO1.setTrackName("Hiroshima");
 

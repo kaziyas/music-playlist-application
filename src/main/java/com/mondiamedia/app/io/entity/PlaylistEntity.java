@@ -9,15 +9,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * @author Yaser Kazerooni (yaser.kazerooni@gmail.com)
  * @version 1.0 2020.10.28
  * @since 1.0
  */
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
 @Entity(name = "playlists")
 public class PlaylistEntity implements Serializable {
 

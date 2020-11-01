@@ -1,5 +1,6 @@
 package com.mondiamedia.app.service.impl;
 
+import com.mondiamedia.app.security.AppProperties;
 import com.mondiamedia.app.security.SecurityConstants;
 import com.mondiamedia.app.service.SearchService;
 import com.mondiamedia.app.service.SecurityService;
@@ -34,13 +35,20 @@ public class SearchServiceImpl implements SearchService {
 
   @Autowired private SecurityService securityService;
 
-  public List<ArticleDTO> searchArticle(String query) {
+  @Autowired private AppProperties appProperties;
+
+  public List<ArticleDTO> searchArticle(String query, String offset) {
     String returnedJson = "";
+
     try {
       String url =
-          "https://staging-gateway.mondiamedia.com/v1/api/content/search?q="
+          appProperties.getMondiaSearchApiUrl()
+              + "?q="
               + query
-              + "&offset=0&limit=10";
+              + "&offset="
+              + offset
+              + "&limit="
+              + appProperties.getPageLimit();
 
       String accessToken = securityService.getToken().getAccessToken();
 
@@ -56,8 +64,7 @@ public class SearchServiceImpl implements SearchService {
           accessToken = fetchValidToken().getAccessToken();
           request = getHttpEntity(accessToken);
           response = restTemplate.exchange(url, HttpMethod.GET, request, String.class);
-        } else
-          e.printStackTrace();
+        } else e.printStackTrace();
       }
 
       returnedJson = response.getBody();
@@ -78,15 +85,13 @@ public class SearchServiceImpl implements SearchService {
   private TokenDTO fetchValidToken() {
     TokenDTO savedTokenDTO = new TokenDTO();
     try {
-      String url = "https://staging-gateway.mondiamedia.com/v0/api/gateway/token/client";
-
       HttpHeaders headers = new HttpHeaders();
-
       headers.add(SecurityConstants.HEADER_PARAMETER, SecurityConstants.getTokenSecret());
 
       HttpEntity request = new HttpEntity(headers);
       ResponseEntity<String> response =
-          restTemplate.exchange(url, HttpMethod.POST, request, String.class);
+          restTemplate.exchange(
+              appProperties.getMondiaTokenApiUrl(), HttpMethod.POST, request, String.class);
 
       TokenDTO tokenDTO = parseTokenResponse(response.getBody());
       savedTokenDTO = securityService.saveToken(tokenDTO);

@@ -9,5 +9,5 @@ import java.util.List;
  * @since 1.0
  */
 public interface SearchService {
-  List<ArticleDTO> searchArticle(String query);
+  List<ArticleDTO> searchArticle(String query, String offset);
 }

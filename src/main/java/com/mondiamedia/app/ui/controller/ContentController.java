@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -35,9 +36,9 @@ public class ContentController {
       path = "/search",
       consumes = {MediaType.APPLICATION_JSON_VALUE},
       produces = {MediaType.APPLICATION_JSON_VALUE})
-  public List<ArticleRest> searchArticle(@RequestBody ArticleRequestModel articleRequestModel) {
+  public List<ArticleRest> searchArticle(@RequestBody ArticleRequestModel articleRequestModel, @RequestParam  String offset) {
     List<ArticleRest> returnValue = new ArrayList<>();
-    List<ArticleDTO> articles = searchService.searchArticle(createQueryString(articleRequestModel));
+    List<ArticleDTO> articles = searchService.searchArticle(createQueryString(articleRequestModel), offset);
 
     articleService.saveSearchedArticles(articles);
 

@@ -8,16 +8,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author Yaser Kazerooni (yaser.kazerooni@gmail.com)
  * @version 1.0 2020.10.29
  * @since 1.0
  */
-@Data
-@NoArgsConstructor
-@Entity(name = "article")
+@Getter
+@Setter
+@Entity(name = "articles")
 public class ArticleEntity implements Serializable {
 
   @Id @GeneratedValue private long id;

@@ -2,6 +2,7 @@ package com.mondiamedia.app.service.shared;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * @author Yaser Kazerooni (yaser.kazerooni@gmail.com)
@@ -15,6 +16,8 @@ public class ArticleDTO {
   private String articleId;
   private String trackName;
   private String artistName;
+
+  @ToString.Exclude
   private PlaylistDTO playlistDetails;
 
   public ArticleDTO(String articleId, String trackName, String artistName) {
