@@ -8,12 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @version 1.0 2020.10.28
  * @since 1.0
  */
-
 @SpringBootTest
 class AppApplicationTests {
 
   @Test
-  void contextLoads() {
-  }
-
+  void contextLoads() {}
 }

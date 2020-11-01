@@ -8,7 +8,11 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+/**
+ * @author Yaser Kazerooni (yaser.kazerooni@gmail.com)
+ * @version 1.0 2020.10.30
+ * @since 1.0
+ */
 @Service
 public class SecurityServiceImpl implements SecurityService {
   @Autowired TokenRepository tokenRepository;
