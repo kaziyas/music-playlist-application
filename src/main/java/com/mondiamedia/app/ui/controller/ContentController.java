@@ -5,6 +5,7 @@ import com.mondiamedia.app.service.SearchService;
 import com.mondiamedia.app.service.shared.ArticleDTO;
 import com.mondiamedia.app.ui.model.request.ArticleRequestModel;
 import com.mondiamedia.app.ui.model.response.ArticleRest;
+import io.swagger.annotations.ApiOperation;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,11 +34,13 @@ public class ContentController {
 
   @Autowired ArticleService articleService;
 
-  @GetMapping(
+  @ApiOperation(value="The Search Media Contents Web Service Endpoint",
+      notes="${contentController.searchArticle.ApiOperation.Notes}")
+  @PostMapping(
       path = "/search",
       consumes = {MediaType.APPLICATION_JSON_VALUE},
       produces = {MediaType.APPLICATION_JSON_VALUE})
-  public List<ArticleRest> searchArticle(@RequestBody ArticleRequestModel articleRequestModel, @RequestParam  String offset) {
+  public List<ArticleRest> searchArticle(@RequestBody ArticleRequestModel articleRequestModel, @RequestParam (value = "offset", defaultValue = "0")  String offset) {
     List<ArticleRest> returnValue = new ArrayList<>();
     List<ArticleDTO> articles = searchService.searchArticle(createQueryString(articleRequestModel), offset);
 
