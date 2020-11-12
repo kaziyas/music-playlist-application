@@ -1,4 +1,4 @@
-package com.xxx.app;
+package com.mondiamedia.app;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,9 +37,9 @@ public class SwaggerConfig {
     ApiInfo apiInfo =
         new ApiInfo(
             "Mondia Media app RESTful Web Service documentation",
-            "This pages documents xxx app RESTful Web Service endpoints",
+            "This pages documents mondiamedia app RESTful Web Service endpoints",
             "1.0",
-            "http://www.xxxx.com/service.html",
+            "http://www.mondiamedia.com/service.html",
             contact,
             "Apache 2.0",
             "http://www.apache.org/licenses/LICENSE-2.0",
@@ -50,7 +50,7 @@ public class SwaggerConfig {
             .protocols(new HashSet<>(Arrays.asList("HTTP")))
             .apiInfo(apiInfo)
             .select()
-            .apis(RequestHandlerSelectors.basePackage("com.xxx.app"))
+            .apis(RequestHandlerSelectors.basePackage("com.mondiamedia.app"))
             .paths(PathSelectors.any())
             .build();
 
