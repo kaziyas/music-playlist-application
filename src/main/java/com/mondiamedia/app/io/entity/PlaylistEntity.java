@@ -7,10 +7,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import lombok.Data;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -20,7 +20,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@Entity(name = "playlists")
+@Entity(name = "PLAYLIST")
 public class PlaylistEntity implements Serializable {
 
   @Id @GeneratedValue private long id;
@@ -37,6 +37,10 @@ public class PlaylistEntity implements Serializable {
   @Column(length = 120)
   private String description;
 
-  @OneToMany(mappedBy = "playlistDetails", cascade = CascadeType.ALL)
+  @ManyToMany(cascade = CascadeType.PERSIST)
+  @JoinTable(
+      name = "PLAYLIST_ARTICLE",
+      joinColumns = @JoinColumn(name = "PLAYLIST_ID"),
+      inverseJoinColumns = @JoinColumn(name = "ARTICLE_ID"))
   private List<ArticleEntity> articles;
 }

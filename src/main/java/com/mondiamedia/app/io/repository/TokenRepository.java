@@ -1,9 +1,8 @@
 package com.mondiamedia.app.io.repository;
 
 import com.mondiamedia.app.io.entity.TokenEntity;
-import com.mondiamedia.app.service.shared.TokenDTO;
 import java.util.List;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -12,6 +11,6 @@ import org.springframework.stereotype.Repository;
  * @since 1.0
  */
 @Repository
-public interface TokenRepository extends CrudRepository<TokenEntity, Long> {
+public interface TokenRepository extends JpaRepository<TokenEntity, Long> {
   List<TokenEntity> findByIdOrderByIdDesc(long id);
 }

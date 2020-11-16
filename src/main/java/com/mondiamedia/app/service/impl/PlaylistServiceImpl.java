@@ -62,10 +62,9 @@ public class PlaylistServiceImpl implements PlaylistService {
       throw new PlaylistServiceException("Playlist with ID: " + playlistId + " not found");
 
     final List<ArticleDTO> articles = playlist.getArticles();
-    if (articles != null) {
+    if (articles != null) { //add or remove article
       IntStream.range(0, articles.size()).forEach(i -> {
         ArticleDTO article = articles.get(i);
-//        article.setArticleId(utils.generateArticleId(30));
         article.setPlaylistDetails(playlist);
         articles.set(i, article);
       });
@@ -73,6 +72,8 @@ public class PlaylistServiceImpl implements PlaylistService {
       articleEntities = articles.stream()
           .map(articleDTO -> modelMapper.map(articleDTO, ArticleEntity.class))
           .collect(Collectors.toList());
+    } else {//update playlist
+      articleEntities = playlistEntity.getArticles();
     }
 
     playlistEntity.setTitle(playlist.getTitle());

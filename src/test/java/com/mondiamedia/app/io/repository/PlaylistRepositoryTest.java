@@ -35,23 +35,13 @@ public class PlaylistRepositoryTest {
   @Test
   final void testFindPlaylistByTitle() {
     String title = "My best pop songs";
-    List<PlaylistEntity> playlists = playlistRepository.findPlaylistByTitle(title);
+    List<PlaylistEntity> playlists = playlistRepository.findAllByTitle(title);
     assertNotNull(playlists);
     assertTrue(playlists.size() == 2);
 
     PlaylistEntity playlist = playlists.get(0);
     assertTrue(playlist.getTitle().equals(title));
   }
-
-  /*  @Test
-  final void testFindPlaylistEntityByPlaylistId()
-  {
-    String playlistId = PLAYLIST_ID;
-    PlaylistEntity playlistEntity = playlistRepository.findPlaylistEntityByPlaylistId(playlistId);
-
-    assertNotNull(playlistEntity);
-    assertTrue(playlistEntity.getPlaylistId().equals(playlistId));
-  }*/
 
   private void createRecorods() {
     PlaylistEntity playlistEntity = new PlaylistEntity();

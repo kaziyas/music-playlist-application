@@ -20,10 +20,12 @@ import lombok.ToString;
  */
 @Getter
 @Setter
-@Entity(name = "articles")
+@Entity(name = "ARTICLE")
 public class ArticleEntity implements Serializable {
 
-  @Id @GeneratedValue private long id;
+  @Id
+  @GeneratedValue
+  private long id;
 
   @Column(nullable = false, length = 50)
   private String articleId;
@@ -34,7 +36,4 @@ public class ArticleEntity implements Serializable {
   @Column(nullable = false, length = 50)
   private String artistName;
 
-  @ManyToOne
-  @JoinColumn(name = "playlists_id")
-  private PlaylistEntity playlistDetails;
 }

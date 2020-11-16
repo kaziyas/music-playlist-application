@@ -34,7 +34,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     if (playlistEntity == null) return returnValue;
 
-    final List<ArticleEntity> articles = articleRepository.findAllByPlaylistDetails(playlistEntity);
+    final List<ArticleEntity> articles = playlistEntity.getArticles();
     for (ArticleEntity articleEntity : articles) {
       returnValue.add(modelMapper.map(articleEntity, ArticleDTO.class));
     }

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
-@Entity
+@Entity(name = "TOKEN")
 public class TokenEntity {
   @Id private Long id;
 
