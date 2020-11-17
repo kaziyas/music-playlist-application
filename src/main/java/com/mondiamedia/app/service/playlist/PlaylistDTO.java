@@ -1,5 +1,6 @@
-package com.mondiamedia.app.service.shared;
+package com.mondiamedia.app.service.playlist;
 
+import com.mondiamedia.app.service.article.ArticleDTO;
 import java.util.List;
 import lombok.Data;
 import lombok.NoArgsConstructor;

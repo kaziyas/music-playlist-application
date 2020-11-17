@@ -1,4 +1,4 @@
-package com.mondiamedia.app.service.shared;
+package com.mondiamedia.app.service.article;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

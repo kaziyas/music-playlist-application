@@ -1,4 +1,4 @@
-package com.mondiamedia.app.service.shared;
+package com.mondiamedia.app.service.security;
 
 import java.util.Date;
 import lombok.Data;
