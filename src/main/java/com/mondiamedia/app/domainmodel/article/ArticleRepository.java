@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @version 1.0 2020.10.29
  * @since 1.0
  */
-public interface ArticleRepository extends JpaRepository<ArticleEntity, Long> {
+public interface ArticleRepository extends JpaRepository<Article, Long> {
 
-  ArticleEntity findByArticleId(String articleId);
+  Article findByArticleId(String articleId);
 }

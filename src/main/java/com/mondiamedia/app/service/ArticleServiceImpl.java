@@ -1,8 +1,8 @@
 package com.mondiamedia.app.service;
 
 import com.mondiamedia.app.exceptions.ArticleServiceException;
-import com.mondiamedia.app.domainmodel.article.ArticleEntity;
-import com.mondiamedia.app.domainmodel.playlist.PlaylistEntity;
+import com.mondiamedia.app.domainmodel.article.Article;
+import com.mondiamedia.app.domainmodel.playlist.Playlist;
 import com.mondiamedia.app.domainmodel.article.ArticleRepository;
 import com.mondiamedia.app.domainmodel.playlist.PlaylistRepository;
 import com.mondiamedia.app.service.api.ArticleService;
@@ -30,13 +30,13 @@ public class ArticleServiceImpl implements ArticleService {
     List<ArticleDTO> returnValue = new ArrayList<>();
     ModelMapper modelMapper = new ModelMapper();
 
-    PlaylistEntity playlistEntity = playlistRepository.findByPlaylistId(playlistId);
+    Playlist playlist = playlistRepository.findByPlaylistId(playlistId);
 
-    if (playlistEntity == null) return returnValue;
+    if (playlist == null) return returnValue;
 
-    final List<ArticleEntity> articles = playlistEntity.getArticles();
-    for (ArticleEntity articleEntity : articles) {
-      returnValue.add(modelMapper.map(articleEntity, ArticleDTO.class));
+    final List<Article> articles = playlist.getArticles();
+    for (Article article : articles) {
+      returnValue.add(modelMapper.map(article, ArticleDTO.class));
     }
 
     return returnValue;
@@ -44,12 +44,12 @@ public class ArticleServiceImpl implements ArticleService {
 
   @Override
   public ArticleDTO getArticleByArticleId(String articleId) {
-    ArticleEntity articleEntity = articleRepository.findByArticleId(articleId);
-    if (articleEntity == null)
+    Article article = articleRepository.findByArticleId(articleId);
+    if (article == null)
       throw new ArticleServiceException("Article with ID: " + articleId + " not found");
 
     ModelMapper modelMapper = new ModelMapper();
-    return modelMapper.map(articleEntity, ArticleDTO.class);
+    return modelMapper.map(article, ArticleDTO.class);
   }
 
   @Override
@@ -61,8 +61,8 @@ public class ArticleServiceImpl implements ArticleService {
       if (articleRepository.findByArticleId(articleDTO.getArticleId()) != null)
         continue; // duplicate article
 
-      ArticleEntity entity = modelMapper.map(articleDTO, ArticleEntity.class);
-      ArticleEntity storedArticle = articleRepository.save(entity);
+      Article entity = modelMapper.map(articleDTO, Article.class);
+      Article storedArticle = articleRepository.save(entity);
       returnValue.add(modelMapper.map(storedArticle, ArticleDTO.class));
     }
 

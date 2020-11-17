@@ -16,7 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity(name = "ARTICLE")
-public class ArticleEntity implements Serializable {
+public class Article implements Serializable {
 
   @Id
   @GeneratedValue

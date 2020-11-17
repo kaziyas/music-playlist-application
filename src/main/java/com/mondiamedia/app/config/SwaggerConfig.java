@@ -1,4 +1,4 @@
-package com.mondiamedia.app;
+package com.mondiamedia.app.config;
 
 import java.util.ArrayList;
 import java.util.Arrays;

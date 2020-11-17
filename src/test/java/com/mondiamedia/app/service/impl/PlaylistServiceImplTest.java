@@ -11,8 +11,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.mondiamedia.app.exceptions.PlaylistServiceException;
-import com.mondiamedia.app.domainmodel.article.ArticleEntity;
-import com.mondiamedia.app.domainmodel.playlist.PlaylistEntity;
+import com.mondiamedia.app.domainmodel.article.Article;
+import com.mondiamedia.app.domainmodel.playlist.Playlist;
 import com.mondiamedia.app.domainmodel.playlist.PlaylistRepository;
 import com.mondiamedia.app.service.PlaylistServiceImpl;
 import com.mondiamedia.app.service.article.ArticleDTO;
@@ -40,24 +40,24 @@ public class PlaylistServiceImplTest {
   @InjectMocks PlaylistServiceImpl playlistService;
   @Mock PlaylistRepository playlistRepository;
   @Mock Utils utils;
-  PlaylistEntity playlistEntity;
+  Playlist playlist;
 
   @BeforeEach
   void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
 
-    playlistEntity = new PlaylistEntity();
-    playlistEntity.setId(1l);
-    playlistEntity.setPlaylistId(PLAYLIST_ID);
-    playlistEntity.setTitle("My best pop songs");
-    playlistEntity.setDescription("The best 90 decade pop songs");
-    playlistEntity.setEmail("yaser.kazerooni@gmail.com");
-    playlistEntity.setArticles(getArticlesEntity());
+    playlist = new Playlist();
+    playlist.setId(1l);
+    playlist.setPlaylistId(PLAYLIST_ID);
+    playlist.setTitle("My best pop songs");
+    playlist.setDescription("The best 90 decade pop songs");
+    playlist.setEmail("yaser.kazerooni@gmail.com");
+    playlist.setArticles(getArticlesEntity());
   }
 
   @Test
   final void testGetPlaylist() {
-    when(playlistRepository.findByPlaylistId(anyString())).thenReturn(playlistEntity);
+    when(playlistRepository.findByPlaylistId(anyString())).thenReturn(playlist);
 
     PlaylistDTO playlistDTO = playlistService.getPlaylistByPlaylistId(PLAYLIST_ID);
 
@@ -78,7 +78,7 @@ public class PlaylistServiceImplTest {
 
   @Test
   final void testCreatePlaylist_CreatePlaylistServiceException() {
-    when(playlistRepository.findByTitle(anyString())).thenReturn(playlistEntity);
+    when(playlistRepository.findByTitle(anyString())).thenReturn(playlist);
     PlaylistDTO playlistDTO = getPlaylistDTO();
 
     assertThrows(
@@ -102,17 +102,17 @@ public class PlaylistServiceImplTest {
   final void testCreatePlaylist() {
     when(playlistRepository.findByTitle(anyString())).thenReturn(null);
     when(utils.generatePlaylistId(anyInt())).thenReturn(PLAYLIST_ID);
-    when(playlistRepository.save(any(PlaylistEntity.class))).thenReturn(playlistEntity);
+    when(playlistRepository.save(any(Playlist.class))).thenReturn(playlist);
 
     PlaylistDTO playlistDTO = getPlaylistDTO();
 
     PlaylistDTO storedPlaylistDetails = playlistService.createPlaylist(playlistDTO);
     assertNotNull(storedPlaylistDetails);
-    assertEquals(playlistEntity.getTitle(), storedPlaylistDetails.getTitle());
-    assertEquals(playlistEntity.getDescription(), storedPlaylistDetails.getDescription());
+    assertEquals(playlist.getTitle(), storedPlaylistDetails.getTitle());
+    assertEquals(playlist.getDescription(), storedPlaylistDetails.getDescription());
     assertNotNull(storedPlaylistDetails.getPlayListId());
-    assertEquals(storedPlaylistDetails.getArticles().size(), playlistEntity.getArticles().size());
-    verify(playlistRepository, times(1)).save(any(PlaylistEntity.class));
+    assertEquals(storedPlaylistDetails.getArticles().size(), playlist.getArticles().size());
+    verify(playlistRepository, times(1)).save(any(Playlist.class));
   }
 
   private List<ArticleDTO> getArticlesDTO() {
@@ -133,10 +133,10 @@ public class PlaylistServiceImplTest {
     return articles;
   }
 
-  private List<ArticleEntity> getArticlesEntity() {
+  private List<Article> getArticlesEntity() {
     List<ArticleDTO> articles = getArticlesDTO();
 
-    Type listType = new TypeToken<List<ArticleEntity>>() {}.getType();
+    Type listType = new TypeToken<List<Article>>() {}.getType();
 
     return new ModelMapper().map(articles, listType);
   }

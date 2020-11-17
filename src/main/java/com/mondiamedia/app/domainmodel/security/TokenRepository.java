@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  * @since 1.0
  */
 @Repository
-public interface TokenRepository extends JpaRepository<TokenEntity, Long> {
-  List<TokenEntity> findByIdOrderByIdDesc(long id);
+public interface TokenRepository extends JpaRepository<Token, Long> {
+  List<Token> findByIdOrderByIdDesc(long id);
 }

@@ -1,5 +1,6 @@
-package com.mondiamedia.app;
+package com.mondiamedia.app.config;
 
+import com.mondiamedia.app.SpringApplicationContext;
 import com.mondiamedia.app.security.AppProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;

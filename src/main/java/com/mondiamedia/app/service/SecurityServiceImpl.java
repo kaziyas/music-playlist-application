@@ -1,6 +1,6 @@
 package com.mondiamedia.app.service;
 
-import com.mondiamedia.app.domainmodel.security.TokenEntity;
+import com.mondiamedia.app.domainmodel.security.Token;
 import com.mondiamedia.app.domainmodel.security.TokenRepository;
 import com.mondiamedia.app.service.api.SecurityService;
 import com.mondiamedia.app.service.security.TokenDTO;
@@ -21,7 +21,7 @@ public class SecurityServiceImpl implements SecurityService {
   public TokenDTO getToken() {
     ModelMapper mapper = new ModelMapper();
 
-    List<TokenEntity> tokenList = tokenRepository.findByIdOrderByIdDesc(0L);
+    List<Token> tokenList = tokenRepository.findByIdOrderByIdDesc(0L);
     if (tokenList.isEmpty()) return new TokenDTO();
     return mapper.map(tokenList.get(0), TokenDTO.class);
   }
@@ -30,8 +30,8 @@ public class SecurityServiceImpl implements SecurityService {
   public TokenDTO saveToken(TokenDTO tokenDTO) {
     ModelMapper mapper = new ModelMapper();
 
-    TokenEntity tokenEntity = mapper.map(tokenDTO, TokenEntity.class);
-    TokenEntity savedTokenEntity = tokenRepository.save(tokenEntity);
-    return mapper.map(savedTokenEntity, TokenDTO.class);
+    Token token = mapper.map(tokenDTO, Token.class);
+    Token savedToken = tokenRepository.save(token);
+    return mapper.map(savedToken, TokenDTO.class);
   }
 }

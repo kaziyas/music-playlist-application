@@ -10,10 +10,10 @@ import org.springframework.stereotype.Repository;
  * @since 1.0
  */
 @Repository
-public interface PlaylistRepository extends CrudRepository<PlaylistEntity, Long> {
-  PlaylistEntity findByTitle(String title);
+public interface PlaylistRepository extends CrudRepository<Playlist, Long> {
+  Playlist findByTitle(String title);
 
-  PlaylistEntity findByPlaylistId(String playlistId);
+  Playlist findByPlaylistId(String playlistId);
 
-  List<PlaylistEntity> findAllByTitle(String title);
+  List<Playlist> findAllByTitle(String title);
 }

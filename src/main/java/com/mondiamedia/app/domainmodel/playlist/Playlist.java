@@ -1,6 +1,6 @@
 package com.mondiamedia.app.domainmodel.playlist;
 
-import com.mondiamedia.app.domainmodel.article.ArticleEntity;
+import com.mondiamedia.app.domainmodel.article.Article;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -22,7 +22,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity(name = "PLAYLIST")
-public class PlaylistEntity implements Serializable {
+public class Playlist implements Serializable {
 
   @Id @GeneratedValue private long id;
 
@@ -43,5 +43,5 @@ public class PlaylistEntity implements Serializable {
       name = "PLAYLIST_ARTICLE",
       joinColumns = @JoinColumn(name = "PLAYLIST_ID"),
       inverseJoinColumns = @JoinColumn(name = "ARTICLE_ID"))
-  private List<ArticleEntity> articles;
+  private List<Article> articles;
 }

@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity(name = "TOKEN")
-public class TokenEntity {
+public class Token {
   @Id private Long id;
 
   @Column(nullable = false, length = 50)

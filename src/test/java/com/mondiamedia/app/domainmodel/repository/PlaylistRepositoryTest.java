@@ -3,8 +3,8 @@ package com.mondiamedia.app.domainmodel.repository;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.mondiamedia.app.domainmodel.article.ArticleEntity;
-import com.mondiamedia.app.domainmodel.playlist.PlaylistEntity;
+import com.mondiamedia.app.domainmodel.article.Article;
+import com.mondiamedia.app.domainmodel.playlist.Playlist;
 import com.mondiamedia.app.domainmodel.playlist.PlaylistRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,47 +36,47 @@ public class PlaylistRepositoryTest {
   @Test
   final void testFindPlaylistByTitle() {
     String title = "My best pop songs";
-    List<PlaylistEntity> playlists = playlistRepository.findAllByTitle(title);
+    List<Playlist> playlists = playlistRepository.findAllByTitle(title);
     assertNotNull(playlists);
     assertTrue(playlists.size() == 2);
 
-    PlaylistEntity playlist = playlists.get(0);
+    Playlist playlist = playlists.get(0);
     assertTrue(playlist.getTitle().equals(title));
   }
 
   private void createRecorods() {
-    PlaylistEntity playlistEntity = new PlaylistEntity();
-    playlistEntity.setPlaylistId(PLAYLIST_ID);
-    playlistEntity.setTitle("My best pop songs");
-    playlistEntity.setDescription("The best 90 decade pop songs");
-    playlistEntity.setEmail("yaser.kazerooni@gmail.com");
+    Playlist playlist = new Playlist();
+    playlist.setPlaylistId(PLAYLIST_ID);
+    playlist.setTitle("My best pop songs");
+    playlist.setDescription("The best 90 decade pop songs");
+    playlist.setEmail("yaser.kazerooni@gmail.com");
 
-    ArticleEntity articleEntity = new ArticleEntity();
-    articleEntity.setArticleId("23422");
-    articleEntity.setArtistName("Sandra");
-    articleEntity.setTrackName("Hiroshima");
+    Article article = new Article();
+    article.setArticleId("23422");
+    article.setArtistName("Sandra");
+    article.setTrackName("Hiroshima");
 
-    List<ArticleEntity> articles = new ArrayList<>();
-    articles.add(articleEntity);
-    playlistEntity.setArticles(articles);
+    List<Article> articles = new ArrayList<>();
+    articles.add(article);
+    playlist.setArticles(articles);
 
-    playlistRepository.save(playlistEntity);
+    playlistRepository.save(playlist);
 
-    PlaylistEntity playlistEntity2 = new PlaylistEntity();
-    playlistEntity2.setPlaylistId("5656456");
-    playlistEntity2.setTitle("My best pop songs");
-    playlistEntity2.setDescription("The best 90 decade roc songs");
-    playlistEntity2.setEmail("yaser.kazerooni@gmail.com");
+    Playlist playlist2 = new Playlist();
+    playlist2.setPlaylistId("5656456");
+    playlist2.setTitle("My best pop songs");
+    playlist2.setDescription("The best 90 decade roc songs");
+    playlist2.setEmail("yaser.kazerooni@gmail.com");
 
-    ArticleEntity articleEntity2 = new ArticleEntity();
-    articleEntity2.setArticleId("455645");
-    articleEntity2.setArtistName("Michael");
-    articleEntity2.setTrackName("Give in to me");
+    Article article2 = new Article();
+    article2.setArticleId("455645");
+    article2.setArtistName("Michael");
+    article2.setTrackName("Give in to me");
 
-    List<ArticleEntity> articles2 = new ArrayList<>();
-    articles2.add(articleEntity2);
-    playlistEntity.setArticles(articles2);
+    List<Article> articles2 = new ArrayList<>();
+    articles2.add(article2);
+    playlist.setArticles(articles2);
 
-    playlistRepository.save(playlistEntity2);
+    playlistRepository.save(playlist2);
   }
 }
