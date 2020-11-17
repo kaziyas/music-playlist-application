@@ -1,7 +1,7 @@
 package com.mondiamedia.app.security;
 
-import com.mondiamedia.app.service.SecurityService;
-import com.mondiamedia.app.service.shared.TokenDTO;
+import com.mondiamedia.app.service.api.SecurityService;
+import com.mondiamedia.app.service.security.TokenDTO;
 import java.io.StringReader;
 import javax.json.Json;
 import javax.json.JsonObject;

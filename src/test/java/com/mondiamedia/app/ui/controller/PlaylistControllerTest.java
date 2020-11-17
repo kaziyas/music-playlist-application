@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-import com.mondiamedia.app.service.PlaylistService;
-import com.mondiamedia.app.service.shared.ArticleDTO;
-import com.mondiamedia.app.service.shared.PlaylistDTO;
+import com.mondiamedia.app.service.api.PlaylistService;
+import com.mondiamedia.app.service.article.ArticleDTO;
+import com.mondiamedia.app.service.playlist.PlaylistDTO;
 import com.mondiamedia.app.ui.model.response.PlaylistRest;
 import java.util.ArrayList;
 import java.util.List;

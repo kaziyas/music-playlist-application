@@ -1,8 +1,8 @@
 package com.mondiamedia.app.ui.controller;
 
-import com.mondiamedia.app.service.ArticleService;
-import com.mondiamedia.app.service.SearchService;
-import com.mondiamedia.app.service.shared.ArticleDTO;
+import com.mondiamedia.app.service.api.ArticleService;
+import com.mondiamedia.app.service.api.SearchService;
+import com.mondiamedia.app.service.article.ArticleDTO;
 import com.mondiamedia.app.ui.model.request.ArticleRequestModel;
 import com.mondiamedia.app.ui.model.response.ArticleRest;
 import io.swagger.annotations.ApiOperation;
@@ -14,7 +14,6 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

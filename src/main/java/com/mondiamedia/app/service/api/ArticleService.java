@@ -1,6 +1,6 @@
-package com.mondiamedia.app.service;
+package com.mondiamedia.app.service.api;
 
-import com.mondiamedia.app.service.shared.ArticleDTO;
+import com.mondiamedia.app.service.article.ArticleDTO;
 import java.util.List;
 
 /**

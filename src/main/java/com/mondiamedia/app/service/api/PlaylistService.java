@@ -1,6 +1,6 @@
-package com.mondiamedia.app.service;
+package com.mondiamedia.app.service.api;
 
-import com.mondiamedia.app.service.shared.PlaylistDTO;
+import com.mondiamedia.app.service.playlist.PlaylistDTO;
 
 /**
  * @author Yaser Kazerooni (yaser.kazerooni@gmail.com)

@@ -1,7 +1,6 @@
-package com.mondiamedia.app.service;
+package com.mondiamedia.app.service.api;
 
-import com.mondiamedia.app.io.entity.TokenEntity;
-import com.mondiamedia.app.service.shared.TokenDTO;
+import com.mondiamedia.app.service.security.TokenDTO;
 
 /**
  * @author Yaser Kazerooni (yaser.kazerooni@gmail.com)

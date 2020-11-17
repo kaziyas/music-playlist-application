@@ -1,10 +1,10 @@
 package com.mondiamedia.app.ui.controller;
 
 import com.mondiamedia.app.exceptions.PlaylistServiceException;
-import com.mondiamedia.app.service.ArticleService;
-import com.mondiamedia.app.service.PlaylistService;
-import com.mondiamedia.app.service.shared.ArticleDTO;
-import com.mondiamedia.app.service.shared.PlaylistDTO;
+import com.mondiamedia.app.service.api.ArticleService;
+import com.mondiamedia.app.service.api.PlaylistService;
+import com.mondiamedia.app.service.article.ArticleDTO;
+import com.mondiamedia.app.service.playlist.PlaylistDTO;
 import com.mondiamedia.app.ui.model.request.PlaylistRequestModel;
 import com.mondiamedia.app.ui.model.response.ArticleRest;
 import com.mondiamedia.app.ui.model.response.ErrorMessages;

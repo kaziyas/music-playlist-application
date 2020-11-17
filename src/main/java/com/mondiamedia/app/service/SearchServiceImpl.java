@@ -1,11 +1,11 @@
-package com.mondiamedia.app.service.impl;
+package com.mondiamedia.app.service;
 
 import com.mondiamedia.app.security.AppProperties;
 import com.mondiamedia.app.security.SecurityConstants;
 import com.mondiamedia.app.security.TokenInitializer;
-import com.mondiamedia.app.service.SearchService;
-import com.mondiamedia.app.service.shared.ArticleDTO;
-import com.mondiamedia.app.service.shared.TokenDTO;
+import com.mondiamedia.app.service.api.SearchService;
+import com.mondiamedia.app.service.article.ArticleDTO;
+import com.mondiamedia.app.service.security.TokenDTO;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;

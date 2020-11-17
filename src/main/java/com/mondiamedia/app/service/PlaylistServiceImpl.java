@@ -1,12 +1,12 @@
-package com.mondiamedia.app.service.impl;
+package com.mondiamedia.app.service;
 
 import com.mondiamedia.app.exceptions.PlaylistServiceException;
 import com.mondiamedia.app.io.entity.ArticleEntity;
 import com.mondiamedia.app.io.entity.PlaylistEntity;
 import com.mondiamedia.app.io.repository.PlaylistRepository;
-import com.mondiamedia.app.service.PlaylistService;
-import com.mondiamedia.app.service.shared.ArticleDTO;
-import com.mondiamedia.app.service.shared.PlaylistDTO;
+import com.mondiamedia.app.service.api.PlaylistService;
+import com.mondiamedia.app.service.article.ArticleDTO;
+import com.mondiamedia.app.service.playlist.PlaylistDTO;
 import com.mondiamedia.app.service.shared.Utils;
 import java.util.ArrayList;
 import java.util.List;
