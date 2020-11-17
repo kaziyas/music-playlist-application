@@ -14,7 +14,6 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -31,12 +30,19 @@ import org.springframework.web.client.RestTemplate;
  */
 @Service
 public class SearchServiceImpl implements SearchService {
-  @Autowired private RestTemplate restTemplate;
-  @Autowired private AppProperties appProperties;
-  @Autowired private TokenInitializer tokenInitializer;
+  private final RestTemplate restTemplate;
+  private final AppProperties appProperties;
+  private final TokenInitializer tokenInitializer;
+
+  public SearchServiceImpl(
+      RestTemplate restTemplate, AppProperties appProperties, TokenInitializer tokenInitializer) {
+    this.restTemplate = restTemplate;
+    this.appProperties = appProperties;
+    this.tokenInitializer = tokenInitializer;
+  }
 
   public List<ArticleDTO> searchArticle(String query, String offset) {
-    String returnedJson = "";
+    String returnedJson;
 
     String url =
         appProperties.getMondiaSearchApiUrl()
@@ -62,13 +68,14 @@ public class SearchServiceImpl implements SearchService {
     return parseArticlesResponse(returnedJson);
   }
 
-  private HttpEntity createRequestEntity() {
+  private HttpEntity<HttpHeaders> createRequestEntity() {
     TokenDTO token = tokenInitializer.getTokenDTO();
 
     HttpHeaders headers = new HttpHeaders();
-    headers.add(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token.getAccessToken());
+    headers.add(
+        SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token.getAccessToken());
     headers.add(SecurityConstants.HEADER_PARAMETER, SecurityConstants.getTokenSecret());
-    return new HttpEntity(headers);
+    return new HttpEntity<HttpHeaders>(headers);
   }
 
   private List<ArticleDTO> parseArticlesResponse(String json) {

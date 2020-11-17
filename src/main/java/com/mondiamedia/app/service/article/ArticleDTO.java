@@ -2,7 +2,6 @@ package com.mondiamedia.app.service.article;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 /**
  * @author Yaser Kazerooni (yaser.kazerooni@gmail.com)

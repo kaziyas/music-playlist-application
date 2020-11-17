@@ -6,7 +6,6 @@ import com.mondiamedia.app.service.api.SecurityService;
 import com.mondiamedia.app.service.security.TokenDTO;
 import java.util.List;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 /**
  * @author Yaser Kazerooni (yaser.kazerooni@gmail.com)
@@ -15,7 +14,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SecurityServiceImpl implements SecurityService {
-  @Autowired TokenRepository tokenRepository;
+  private final TokenRepository tokenRepository;
+
+  public SecurityServiceImpl(TokenRepository tokenRepository) {
+    this.tokenRepository = tokenRepository;
+  }
 
   @Override
   public TokenDTO getToken() {

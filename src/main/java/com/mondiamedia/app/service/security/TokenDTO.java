@@ -1,6 +1,5 @@
 package com.mondiamedia.app.service.security;
 
-import java.util.Date;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

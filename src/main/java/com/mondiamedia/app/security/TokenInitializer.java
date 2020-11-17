@@ -6,7 +6,6 @@ import java.io.StringReader;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -21,11 +20,18 @@ import org.springframework.web.client.RestTemplate;
  */
 @Component
 public class TokenInitializer {
-  @Autowired private RestTemplate restTemplate;
-  @Autowired private AppProperties appProperties;
-  @Autowired private SecurityService securityService;
+  private final RestTemplate restTemplate;
+  private final AppProperties appProperties;
+  private final SecurityService securityService;
 
   private TokenDTO tokenDTO;
+
+  public TokenInitializer(
+      RestTemplate restTemplate, AppProperties appProperties, SecurityService securityService) {
+    this.restTemplate = restTemplate;
+    this.appProperties = appProperties;
+    this.securityService = securityService;
+  }
 
   private void init() {
     String token = securityService.getToken().getAccessToken();
@@ -41,7 +47,7 @@ public class TokenInitializer {
   private String fetchToken() {
     HttpHeaders headers = new HttpHeaders();
     headers.add(SecurityConstants.HEADER_PARAMETER, SecurityConstants.getTokenSecret());
-    HttpEntity request = new HttpEntity(headers);
+    HttpEntity<HttpHeaders> request = new HttpEntity<HttpHeaders>(headers);
 
     ResponseEntity<String> response =
         restTemplate.exchange(
@@ -52,13 +58,11 @@ public class TokenInitializer {
 
   private TokenDTO saveToken(String jsonToken) {
     TokenDTO tokenDTO = TokenParser.parse(jsonToken);
-    TokenDTO validTokenDTO = securityService.saveToken(tokenDTO);
-    return validTokenDTO;
+    return securityService.saveToken(tokenDTO);
   }
 
   public TokenDTO getTokenDTO() {
-    if (this.tokenDTO == null)
-      init();
+    if (this.tokenDTO == null) init();
 
     return this.tokenDTO;
   }
@@ -71,12 +75,10 @@ public class TokenInitializer {
     private static TokenDTO parse(String jsonToken) {
       JsonReader jsonReader = Json.createReader(new StringReader(jsonToken));
       JsonObject jsonObject = jsonReader.readObject();
-      TokenDTO tokenDTO =
-          new TokenDTO(
-              jsonObject.getString(SecurityConstants.ACCESS_TOKEN),
-              jsonObject.getString(SecurityConstants.TOKEN_TYPE),
-              jsonObject.getString(SecurityConstants.EXPIRES_IN));
-      return tokenDTO;
+      return new TokenDTO(
+          jsonObject.getString(SecurityConstants.ACCESS_TOKEN),
+          jsonObject.getString(SecurityConstants.TOKEN_TYPE),
+          jsonObject.getString(SecurityConstants.EXPIRES_IN));
     }
   }
 }

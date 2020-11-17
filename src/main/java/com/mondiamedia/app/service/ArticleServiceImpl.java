@@ -1,16 +1,15 @@
 package com.mondiamedia.app.service;
 
-import com.mondiamedia.app.exceptions.ArticleServiceException;
 import com.mondiamedia.app.domainmodel.article.Article;
-import com.mondiamedia.app.domainmodel.playlist.Playlist;
 import com.mondiamedia.app.domainmodel.article.ArticleRepository;
+import com.mondiamedia.app.domainmodel.playlist.Playlist;
 import com.mondiamedia.app.domainmodel.playlist.PlaylistRepository;
+import com.mondiamedia.app.exceptions.ArticleServiceException;
 import com.mondiamedia.app.service.api.ArticleService;
 import com.mondiamedia.app.service.article.ArticleDTO;
 import java.util.ArrayList;
 import java.util.List;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,10 +19,14 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ArticleServiceImpl implements ArticleService {
+  private final ArticleRepository articleRepository;
+  private final PlaylistRepository playlistRepository;
 
-  @Autowired private PlaylistRepository playlistRepository;
-
-  @Autowired private ArticleRepository articleRepository;
+  public ArticleServiceImpl(
+      PlaylistRepository playlistRepository, ArticleRepository articleRepository) {
+    this.playlistRepository = playlistRepository;
+    this.articleRepository = articleRepository;
+  }
 
   @Override
   public List<ArticleDTO> getArticles(String playlistId) {
@@ -53,7 +56,7 @@ public class ArticleServiceImpl implements ArticleService {
   }
 
   @Override
-  public List<ArticleDTO> saveSearchedArticles(List<ArticleDTO> articles) {
+  public void saveSearchedArticles(List<ArticleDTO> articles) {
     List<ArticleDTO> returnValue = new ArrayList<>();
     ModelMapper modelMapper = new ModelMapper();
 
@@ -66,6 +69,5 @@ public class ArticleServiceImpl implements ArticleService {
       returnValue.add(modelMapper.map(storedArticle, ArticleDTO.class));
     }
 
-    return returnValue;
   }
 }

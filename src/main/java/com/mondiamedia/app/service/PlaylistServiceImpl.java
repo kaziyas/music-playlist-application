@@ -1,19 +1,17 @@
 package com.mondiamedia.app.service;
 
-import com.mondiamedia.app.exceptions.PlaylistServiceException;
 import com.mondiamedia.app.domainmodel.article.Article;
 import com.mondiamedia.app.domainmodel.playlist.Playlist;
 import com.mondiamedia.app.domainmodel.playlist.PlaylistRepository;
+import com.mondiamedia.app.exceptions.PlaylistServiceException;
 import com.mondiamedia.app.service.api.PlaylistService;
 import com.mondiamedia.app.service.article.ArticleDTO;
 import com.mondiamedia.app.service.playlist.PlaylistDTO;
-import com.mondiamedia.app.service.shared.Utils;
-import java.util.ArrayList;
+import com.mondiamedia.app.service.shared.IdGeneratorUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -23,9 +21,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PlaylistServiceImpl implements PlaylistService {
-  @Autowired Utils utils;
+  private final PlaylistRepository playlistRepository;
 
-  @Autowired PlaylistRepository playlistRepository;
+  public PlaylistServiceImpl(PlaylistRepository playlistRepository) {
+    this.playlistRepository = playlistRepository;
+  }
 
   @Override
   public PlaylistDTO createPlaylist(PlaylistDTO playlistDTO) {
@@ -35,7 +35,7 @@ public class PlaylistServiceImpl implements PlaylistService {
     ModelMapper modelMapper = new ModelMapper();
     Playlist playlist = modelMapper.map(playlistDTO, Playlist.class);
 
-    String publicPlaylistId = utils.generatePlaylistId(30);
+    String publicPlaylistId = IdGeneratorUtils.generatePlaylistId(30);
     playlist.setPlaylistId(publicPlaylistId);
 
     Playlist storedPlaylistDetail = playlistRepository.save(playlist);
@@ -54,24 +54,27 @@ public class PlaylistServiceImpl implements PlaylistService {
 
   @Override
   public PlaylistDTO updatePlayList(String playlistId, PlaylistDTO playlist) {
+    List<Article> articleEntities;
     ModelMapper modelMapper = new ModelMapper();
-    List<Article> articleEntities = new ArrayList<>();
 
     Playlist playlistEntity = playlistRepository.findByPlaylistId(playlistId);
     if (playlistEntity == null)
       throw new PlaylistServiceException("Playlist with ID: " + playlistId + " not found");
 
     final List<ArticleDTO> articles = playlist.getArticles();
-    if (articles != null) { //add or remove article
-      IntStream.range(0, articles.size()).forEach(i -> {
-        ArticleDTO article = articles.get(i);
-        articles.set(i, article);
-      });
+    if (articles != null) { // add or remove article
+      IntStream.range(0, articles.size())
+          .forEach(
+              i -> {
+                ArticleDTO article = articles.get(i);
+                articles.set(i, article);
+              });
 
-      articleEntities = articles.stream()
-          .map(articleDTO -> modelMapper.map(articleDTO, Article.class))
-          .collect(Collectors.toList());
-    } else {//update playlist
+      articleEntities =
+          articles.stream()
+              .map(articleDTO -> modelMapper.map(articleDTO, Article.class))
+              .collect(Collectors.toList());
+    } else { // update playlist
       articleEntities = playlistEntity.getArticles();
     }
 

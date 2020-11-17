@@ -17,7 +17,7 @@ import com.mondiamedia.app.domainmodel.playlist.PlaylistRepository;
 import com.mondiamedia.app.service.PlaylistServiceImpl;
 import com.mondiamedia.app.service.article.ArticleDTO;
 import com.mondiamedia.app.service.playlist.PlaylistDTO;
-import com.mondiamedia.app.service.shared.Utils;
+import com.mondiamedia.app.service.shared.IdGeneratorUtils;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +39,6 @@ public class PlaylistServiceImplTest {
   final String PLAYLIST_ID = "5AK81zVunje384aLOyjEywqFR862xl";
   @InjectMocks PlaylistServiceImpl playlistService;
   @Mock PlaylistRepository playlistRepository;
-  @Mock Utils utils;
   Playlist playlist;
 
   @BeforeEach
@@ -101,7 +100,7 @@ public class PlaylistServiceImplTest {
   @Test
   final void testCreatePlaylist() {
     when(playlistRepository.findByTitle(anyString())).thenReturn(null);
-    when(utils.generatePlaylistId(anyInt())).thenReturn(PLAYLIST_ID);
+    when(IdGeneratorUtils.generatePlaylistId(anyInt())).thenReturn(PLAYLIST_ID);
     when(playlistRepository.save(any(Playlist.class))).thenReturn(playlist);
 
     PlaylistDTO playlistDTO = getPlaylistDTO();

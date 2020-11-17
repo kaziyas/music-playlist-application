@@ -1,7 +1,7 @@
 package com.mondiamedia.app.config;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import org.springframework.context.annotation.Bean;
@@ -32,7 +32,7 @@ public class SwaggerConfig {
             "",
             "yaser.kazerooni@gmail.com");
 
-    List<VendorExtension> vendorExtensions = new ArrayList<>();
+    List<VendorExtension> vendorExtensions = new ArrayList<VendorExtension>();
 
     ApiInfo apiInfo =
         new ApiInfo(
@@ -45,15 +45,12 @@ public class SwaggerConfig {
             "http://www.apache.org/licenses/LICENSE-2.0",
             vendorExtensions);
 
-    Docket docket =
-        new Docket(DocumentationType.SWAGGER_2)
-            .protocols(new HashSet<>(Arrays.asList("HTTP")))
-            .apiInfo(apiInfo)
-            .select()
-            .apis(RequestHandlerSelectors.basePackage("com.mondiamedia.app"))
-            .paths(PathSelectors.any())
-            .build();
-
-    return docket;
+    return new Docket(DocumentationType.SWAGGER_2)
+        .protocols(new HashSet<>(Collections.singletonList("HTTP")))
+        .apiInfo(apiInfo)
+        .select()
+        .apis(RequestHandlerSelectors.basePackage("com.mondiamedia.app"))
+        .paths(PathSelectors.any())
+        .build();
   }
 }

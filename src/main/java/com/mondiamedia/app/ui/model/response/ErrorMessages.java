@@ -6,8 +6,7 @@ package com.mondiamedia.app.ui.model.response;
  * @since 1.0
  */
 public enum ErrorMessages {
-  MISSING_REQUIRED_FIELD("Missing required field. Please check documentation for required fields"),
-  NO_RECORD_FOUND("Record with provided id is not found");
+  MISSING_REQUIRED_FIELD("Missing required field. Please check documentation for required fields");
 
   private String errorMessage;
 
@@ -17,9 +16,5 @@ public enum ErrorMessages {
 
   public String getErrorMessage() {
     return errorMessage;
-  }
-
-  public void setErrorMessage(String errorMessage) {
-    this.errorMessage = errorMessage;
   }
 }

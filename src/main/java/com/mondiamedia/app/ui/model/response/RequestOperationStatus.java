@@ -7,5 +7,4 @@ package com.mondiamedia.app.ui.model.response;
  */
 public enum RequestOperationStatus {
   SUCCESS,
-  FAIL
 }

@@ -13,5 +13,5 @@ public interface ArticleService {
 
   ArticleDTO getArticleByArticleId(String articleId);
 
-  List<ArticleDTO> saveSearchedArticles(List<ArticleDTO> articles);
+  void saveSearchedArticles(List<ArticleDTO> articles);
 }
