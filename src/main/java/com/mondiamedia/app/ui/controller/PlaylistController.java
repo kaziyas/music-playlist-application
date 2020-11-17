@@ -1,12 +1,10 @@
 package com.mondiamedia.app.ui.controller;
 
-import com.mondiamedia.app.exceptions.ArticleServiceException;
 import com.mondiamedia.app.exceptions.PlaylistServiceException;
 import com.mondiamedia.app.service.ArticleService;
 import com.mondiamedia.app.service.PlaylistService;
 import com.mondiamedia.app.service.shared.ArticleDTO;
 import com.mondiamedia.app.service.shared.PlaylistDTO;
-import com.mondiamedia.app.ui.model.request.ArticleRequestModel;
 import com.mondiamedia.app.ui.model.request.PlaylistRequestModel;
 import com.mondiamedia.app.ui.model.response.ArticleRest;
 import com.mondiamedia.app.ui.model.response.ErrorMessages;
@@ -48,9 +46,9 @@ public class PlaylistController {
       path = "/{id}",
       produces = {MediaType.APPLICATION_JSON_VALUE})
   public PlaylistRest getPlaylist(@PathVariable String id) {
-    final PlaylistDTO playlistDTO = playlistService.getPlaylistByPlaylistId(id);
-
     ModelMapper modelMapper = new ModelMapper();
+
+    final PlaylistDTO playlistDTO = playlistService.getPlaylistByPlaylistId(id);
     return modelMapper.map(playlistDTO, PlaylistRest.class);
   }
 
@@ -66,7 +64,6 @@ public class PlaylistController {
     ModelMapper modelMapper = new ModelMapper();
     PlaylistDTO playlistDTO = modelMapper.map(playlistDetails, PlaylistDTO.class);
     PlaylistDTO createdPlaylist = playlistService.createPlaylist(playlistDTO);
-
     return modelMapper.map(createdPlaylist, PlaylistRest.class);
   }
 
@@ -81,7 +78,6 @@ public class PlaylistController {
 
     PlaylistDTO playlistDTO = modelMapper.map(playlistDetails, PlaylistDTO.class);
     playlistDTO = playlistService.updatePlayList(id, playlistDTO);
-
     return modelMapper.map(playlistDTO, PlaylistRest.class);
   }
 
@@ -100,21 +96,11 @@ public class PlaylistController {
   @PutMapping(
       path = "/{id}/articles",
       produces = {MediaType.APPLICATION_JSON_VALUE})
-  public PlaylistRest addArticle(
-      @PathVariable String id, @RequestParam String articleId) {
-/*
-    if (articleRequestModel.getArtistName().isEmpty()
-        || articleRequestModel.getTrackName().isEmpty())
-      throw new ArticleServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
-    ArticleDTO articleDTO = modelMapper.map(articleRequestModel, ArticleDTO.class);
-*/
+  public PlaylistRest addArticle(@PathVariable String id, @RequestParam String articleId) {
     ModelMapper modelMapper = new ModelMapper();
 
     PlaylistDTO playlistDTO = playlistService.getPlaylistByPlaylistId(id);
-    ArticleDTO articleDTO = articleService.getArticleByArticleId(articleId);
-
-    playlistDTO.getArticles().add(articleDTO);
-
+    playlistDTO.getArticles().add(articleService.getArticleByArticleId(articleId));
     playlistDTO = playlistService.updatePlayList(id, playlistDTO);
     return modelMapper.map(playlistDTO, PlaylistRest.class);
   }
@@ -131,7 +117,6 @@ public class PlaylistController {
             .filter(article -> article.getArticleId().equals(articleId))
             .collect(Collectors.toList());
     playlistDTO.getArticles().removeAll(articleDTO);
-
     playlistDTO = playlistService.updatePlayList(id, playlistDTO);
     return modelMapper.map(playlistDTO, PlaylistRest.class);
   }
@@ -141,8 +126,8 @@ public class PlaylistController {
       produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_VALUE})
   public List<ArticleRest> getArticles(@PathVariable String id) {
     List<ArticleRest> returnValue = new ArrayList<>();
-    List<ArticleDTO> articles = articleService.getArticles(id);
 
+    List<ArticleDTO> articles = articleService.getArticles(id);
     if (articles != null && !articles.isEmpty()) {
       Type listType = new TypeToken<List<ArticleRest>>() {}.getType();
       returnValue = new ModelMapper().map(articles, listType);

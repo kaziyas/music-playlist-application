@@ -65,7 +65,6 @@ public class PlaylistServiceImpl implements PlaylistService {
     if (articles != null) { //add or remove article
       IntStream.range(0, articles.size()).forEach(i -> {
         ArticleDTO article = articles.get(i);
-        article.setPlaylistDetails(playlist);
         articles.set(i, article);
       });
 

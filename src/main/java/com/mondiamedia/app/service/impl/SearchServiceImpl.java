@@ -2,8 +2,8 @@ package com.mondiamedia.app.service.impl;
 
 import com.mondiamedia.app.security.AppProperties;
 import com.mondiamedia.app.security.SecurityConstants;
+import com.mondiamedia.app.security.TokenInitializer;
 import com.mondiamedia.app.service.SearchService;
-import com.mondiamedia.app.service.SecurityService;
 import com.mondiamedia.app.service.shared.ArticleDTO;
 import com.mondiamedia.app.service.shared.TokenDTO;
 import java.io.StringReader;
@@ -32,83 +32,43 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class SearchServiceImpl implements SearchService {
   @Autowired private RestTemplate restTemplate;
-
-  @Autowired private SecurityService securityService;
-
   @Autowired private AppProperties appProperties;
+  @Autowired private TokenInitializer tokenInitializer;
 
   public List<ArticleDTO> searchArticle(String query, String offset) {
     String returnedJson = "";
 
+    String url =
+        appProperties.getMondiaSearchApiUrl()
+            + "?q="
+            + query
+            + "&offset="
+            + offset
+            + "&limit="
+            + appProperties.getPageLimit();
+
+    ResponseEntity<String> response = null;
     try {
-      String url =
-          appProperties.getMondiaSearchApiUrl()
-              + "?q="
-              + query
-              + "&offset="
-              + offset
-              + "&limit="
-              + appProperties.getPageLimit();
-
-      String accessToken = securityService.getToken().getAccessToken();
-
-      if (accessToken == null) accessToken = fetchValidToken().getAccessToken();
-
-      ResponseEntity<String> response = null;
-      HttpEntity request = getHttpEntity(accessToken);
-
-      try {
-        response = restTemplate.exchange(url, HttpMethod.GET, request, String.class);
-      } catch (HttpClientErrorException e) {
-        if (e.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
-          accessToken = fetchValidToken().getAccessToken();
-          request = getHttpEntity(accessToken);
-          response = restTemplate.exchange(url, HttpMethod.GET, request, String.class);
-        } else e.printStackTrace();
-      }
-
-      returnedJson = response.getBody();
-
-    } catch (Exception ex) {
-      ex.printStackTrace();
+      response = restTemplate.exchange(url, HttpMethod.GET, createRequestEntity(), String.class);
+    } catch (HttpClientErrorException e) {
+      if (e.getStatusCode().equals(HttpStatus.UNAUTHORIZED)) {
+        tokenInitializer.refresh();
+        response = restTemplate.exchange(url, HttpMethod.GET, createRequestEntity(), String.class);
+      } else e.printStackTrace();
     }
+
+    returnedJson = response.getBody();
+
     return parseArticlesResponse(returnedJson);
   }
 
-  private HttpEntity getHttpEntity(String accessToken) {
+  private HttpEntity createRequestEntity() {
+    TokenDTO token = tokenInitializer.getTokenDTO();
+
     HttpHeaders headers = new HttpHeaders();
-    headers.add(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + accessToken);
+    headers.add(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token.getAccessToken());
     headers.add(SecurityConstants.HEADER_PARAMETER, SecurityConstants.getTokenSecret());
     return new HttpEntity(headers);
-  }
-
-  private TokenDTO fetchValidToken() {
-    TokenDTO savedTokenDTO = new TokenDTO();
-    try {
-      HttpHeaders headers = new HttpHeaders();
-      headers.add(SecurityConstants.HEADER_PARAMETER, SecurityConstants.getTokenSecret());
-
-      HttpEntity request = new HttpEntity(headers);
-      ResponseEntity<String> response =
-          restTemplate.exchange(
-              appProperties.getMondiaTokenApiUrl(), HttpMethod.POST, request, String.class);
-
-      TokenDTO tokenDTO = parseTokenResponse(response.getBody());
-      savedTokenDTO = securityService.saveToken(tokenDTO);
-
-    } catch (Exception ex) {
-      ex.printStackTrace();
-    }
-    return savedTokenDTO;
-  }
-
-  private TokenDTO parseTokenResponse(String json) {
-    JsonReader jsonReader = Json.createReader(new StringReader(json));
-    JsonObject j = jsonReader.readObject();
-    TokenDTO tokenDTO =
-        new TokenDTO(
-            j.getString("accessToken"), j.getString("tokenType"), j.getString("expiresIn"));
-    return tokenDTO;
   }
 
   private List<ArticleDTO> parseArticlesResponse(String json) {
@@ -118,10 +78,12 @@ public class SearchServiceImpl implements SearchService {
     JsonArray jsonArray = jsonReader.readArray();
     ListIterator l = jsonArray.listIterator();
     while (l.hasNext()) {
-      JsonObject j = (JsonObject) l.next();
+      JsonObject jsonObject = (JsonObject) l.next();
       ArticleDTO articleDTO =
           new ArticleDTO(
-              String.valueOf(j.getInt("id")), j.getString("name"), j.getString("artistName"));
+              String.valueOf(jsonObject.getInt("id")),
+              jsonObject.getString("name"),
+              jsonObject.getString("artistName"));
       articles.add(articleDTO);
     }
     return articles;

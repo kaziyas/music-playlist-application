@@ -94,8 +94,6 @@ public class PlaylistServiceImplTest {
     playlistDTO.setPlayListId(PLAYLIST_ID);
     playlistDTO.setDescription("The best pop musics");
     playlistDTO.setArticles(getArticlesDTO());
-    playlistDTO.getArticles().get(0).setPlaylistDetails(playlistDTO);
-    playlistDTO.getArticles().get(1).setPlaylistDetails(playlistDTO);
     return playlistDTO;
   }
 

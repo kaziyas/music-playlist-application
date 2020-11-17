@@ -19,21 +19,19 @@ public class SecurityServiceImpl implements SecurityService {
 
   @Override
   public TokenDTO getToken() {
-    List<TokenEntity> tokenList =
-        tokenRepository.findByIdOrderByIdDesc(0L);
-    if (tokenList.isEmpty())
-      return new TokenDTO();
-
     ModelMapper mapper = new ModelMapper();
+
+    List<TokenEntity> tokenList = tokenRepository.findByIdOrderByIdDesc(0L);
+    if (tokenList.isEmpty()) return new TokenDTO();
     return mapper.map(tokenList.get(0), TokenDTO.class);
   }
 
   @Override
   public TokenDTO saveToken(TokenDTO tokenDTO) {
     ModelMapper mapper = new ModelMapper();
+
     TokenEntity tokenEntity = mapper.map(tokenDTO, TokenEntity.class);
     TokenEntity savedTokenEntity = tokenRepository.save(tokenEntity);
     return mapper.map(savedTokenEntity, TokenDTO.class);
   }
-
 }

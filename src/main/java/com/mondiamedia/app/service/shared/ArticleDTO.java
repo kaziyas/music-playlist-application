@@ -17,9 +17,6 @@ public class ArticleDTO {
   private String trackName;
   private String artistName;
 
-  @ToString.Exclude
-  private PlaylistDTO playlistDetails;
-
   public ArticleDTO(String articleId, String trackName, String artistName) {
     this.articleId = articleId;
     this.trackName = trackName;
