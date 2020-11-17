@@ -4,8 +4,8 @@ import com.mondiamedia.app.domainmodel.article.Article;
 import com.mondiamedia.app.domainmodel.article.ArticleRepository;
 import com.mondiamedia.app.domainmodel.playlist.Playlist;
 import com.mondiamedia.app.domainmodel.playlist.PlaylistRepository;
-import com.mondiamedia.app.exceptions.ArticleServiceException;
-import com.mondiamedia.app.service.api.ArticleService;
+import com.mondiamedia.app.service.article.ArticleServiceException;
+import com.mondiamedia.app.service.article.ArticleService;
 import com.mondiamedia.app.service.article.ArticleDTO;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +48,9 @@ public class ArticleServiceImpl implements ArticleService {
   @Override
   public ArticleDTO getArticleByArticleId(String articleId) {
     Article article = articleRepository.findByArticleId(articleId);
-    if (article == null)
+    if (article == null) {
       throw new ArticleServiceException("Article with ID: " + articleId + " not found");
+    }
 
     ModelMapper modelMapper = new ModelMapper();
     return modelMapper.map(article, ArticleDTO.class);
@@ -61,13 +62,11 @@ public class ArticleServiceImpl implements ArticleService {
     ModelMapper modelMapper = new ModelMapper();
 
     for (ArticleDTO articleDTO : articles) {
-      if (articleRepository.findByArticleId(articleDTO.getArticleId()) != null)
-        continue; // duplicate article
+      if (articleRepository.findByArticleId(articleDTO.getArticleId()) != null) continue;
 
       Article entity = modelMapper.map(articleDTO, Article.class);
       Article storedArticle = articleRepository.save(entity);
       returnValue.add(modelMapper.map(storedArticle, ArticleDTO.class));
     }
-
   }
 }

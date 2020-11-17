@@ -10,7 +10,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.mondiamedia.app.exceptions.PlaylistServiceException;
+import com.mondiamedia.app.service.playlist.PlaylistServiceException;
 import com.mondiamedia.app.domainmodel.article.Article;
 import com.mondiamedia.app.domainmodel.playlist.Playlist;
 import com.mondiamedia.app.domainmodel.playlist.PlaylistRepository;

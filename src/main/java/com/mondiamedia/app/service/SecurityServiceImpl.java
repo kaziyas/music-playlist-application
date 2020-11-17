@@ -2,7 +2,7 @@ package com.mondiamedia.app.service;
 
 import com.mondiamedia.app.domainmodel.security.Token;
 import com.mondiamedia.app.domainmodel.security.TokenRepository;
-import com.mondiamedia.app.service.api.SecurityService;
+import com.mondiamedia.app.service.security.SecurityService;
 import com.mondiamedia.app.service.security.TokenDTO;
 import java.util.List;
 import org.modelmapper.ModelMapper;

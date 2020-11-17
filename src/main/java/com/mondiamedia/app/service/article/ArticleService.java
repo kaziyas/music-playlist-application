@@ -1,4 +1,4 @@
-package com.mondiamedia.app.service.api;
+package com.mondiamedia.app.service.article;
 
 import com.mondiamedia.app.service.article.ArticleDTO;
 import java.util.List;

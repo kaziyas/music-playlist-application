@@ -1,5 +1,7 @@
-package com.mondiamedia.app.exceptions;
+package com.mondiamedia.app.infrastructure;
 
+import com.mondiamedia.app.service.article.ArticleServiceException;
+import com.mondiamedia.app.service.playlist.PlaylistServiceException;
 import com.mondiamedia.app.ui.model.response.ErrorMessage;
 import java.util.Date;
 import org.springframework.http.HttpHeaders;

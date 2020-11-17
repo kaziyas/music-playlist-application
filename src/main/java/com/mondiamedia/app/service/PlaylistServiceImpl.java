@@ -3,8 +3,8 @@ package com.mondiamedia.app.service;
 import com.mondiamedia.app.domainmodel.article.Article;
 import com.mondiamedia.app.domainmodel.playlist.Playlist;
 import com.mondiamedia.app.domainmodel.playlist.PlaylistRepository;
-import com.mondiamedia.app.exceptions.PlaylistServiceException;
-import com.mondiamedia.app.service.api.PlaylistService;
+import com.mondiamedia.app.service.playlist.PlaylistServiceException;
+import com.mondiamedia.app.service.playlist.PlaylistService;
 import com.mondiamedia.app.service.article.ArticleDTO;
 import com.mondiamedia.app.service.playlist.PlaylistDTO;
 import com.mondiamedia.app.service.shared.IdGeneratorUtils;
@@ -29,8 +29,9 @@ public class PlaylistServiceImpl implements PlaylistService {
 
   @Override
   public PlaylistDTO createPlaylist(PlaylistDTO playlistDTO) {
-    if (playlistRepository.findByTitle(playlistDTO.getTitle()) != null)
+    if (playlistRepository.findByTitle(playlistDTO.getTitle()) != null) {
       throw new PlaylistServiceException("playlist already exist");
+    }
 
     ModelMapper modelMapper = new ModelMapper();
     Playlist playlist = modelMapper.map(playlistDTO, Playlist.class);
@@ -45,8 +46,9 @@ public class PlaylistServiceImpl implements PlaylistService {
   @Override
   public PlaylistDTO getPlaylistByPlaylistId(String id) {
     Playlist playlist = playlistRepository.findByPlaylistId(id);
-    if (playlist == null)
+    if (playlist == null) {
       throw new PlaylistServiceException("Playlist with ID: " + id + " not found");
+    }
 
     ModelMapper modelMapper = new ModelMapper();
     return modelMapper.map(playlist, PlaylistDTO.class);
@@ -58,8 +60,9 @@ public class PlaylistServiceImpl implements PlaylistService {
     ModelMapper modelMapper = new ModelMapper();
 
     Playlist playlistEntity = playlistRepository.findByPlaylistId(playlistId);
-    if (playlistEntity == null)
+    if (playlistEntity == null) {
       throw new PlaylistServiceException("Playlist with ID: " + playlistId + " not found");
+    }
 
     final List<ArticleDTO> articles = playlist.getArticles();
     if (articles != null) { // add or remove article
@@ -91,8 +94,9 @@ public class PlaylistServiceImpl implements PlaylistService {
   public void deletePlaylist(String id) {
     Playlist playlist = playlistRepository.findByPlaylistId(id);
 
-    if (playlist == null)
+    if (playlist == null) {
       throw new PlaylistServiceException("Playlist with ID: " + id + " not found");
+    }
 
     playlistRepository.delete(playlist);
   }

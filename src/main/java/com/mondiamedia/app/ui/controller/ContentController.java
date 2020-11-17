@@ -1,6 +1,6 @@
 package com.mondiamedia.app.ui.controller;
 
-import com.mondiamedia.app.service.api.ArticleService;
+import com.mondiamedia.app.service.article.ArticleService;
 import com.mondiamedia.app.service.api.SearchService;
 import com.mondiamedia.app.service.article.ArticleDTO;
 import com.mondiamedia.app.ui.model.request.ArticleRequestModel;

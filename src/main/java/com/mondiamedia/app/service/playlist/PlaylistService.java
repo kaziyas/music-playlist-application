@@ -1,6 +1,4 @@
-package com.mondiamedia.app.service.api;
-
-import com.mondiamedia.app.service.playlist.PlaylistDTO;
+package com.mondiamedia.app.service.playlist;
 
 /**
  * @author Yaser Kazerooni (yaser.kazerooni@gmail.com)
@@ -17,4 +15,3 @@ public interface PlaylistService {
 
   void deletePlaylist(String id);
 }
-

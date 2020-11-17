@@ -1,4 +1,4 @@
-package com.mondiamedia.app.service.api;
+package com.mondiamedia.app.service.security;
 
 import com.mondiamedia.app.service.security.TokenDTO;
 

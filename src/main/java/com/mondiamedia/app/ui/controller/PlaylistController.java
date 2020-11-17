@@ -1,8 +1,8 @@
 package com.mondiamedia.app.ui.controller;
 
-import com.mondiamedia.app.exceptions.PlaylistServiceException;
-import com.mondiamedia.app.service.api.ArticleService;
-import com.mondiamedia.app.service.api.PlaylistService;
+import com.mondiamedia.app.service.playlist.PlaylistServiceException;
+import com.mondiamedia.app.service.article.ArticleService;
+import com.mondiamedia.app.service.playlist.PlaylistService;
 import com.mondiamedia.app.service.article.ArticleDTO;
 import com.mondiamedia.app.service.playlist.PlaylistDTO;
 import com.mondiamedia.app.ui.model.request.PlaylistRequestModel;
@@ -60,8 +60,9 @@ public class PlaylistController {
   public PlaylistRest createPlaylist(@RequestBody PlaylistRequestModel playlistDetails)
       throws PlaylistServiceException {
 
-    if (playlistDetails.getTitle().isEmpty())
+    if (playlistDetails.getTitle().isEmpty()) {
       throw new PlaylistServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
+    }
 
     ModelMapper modelMapper = new ModelMapper();
     PlaylistDTO playlistDTO = modelMapper.map(playlistDetails, PlaylistDTO.class);
