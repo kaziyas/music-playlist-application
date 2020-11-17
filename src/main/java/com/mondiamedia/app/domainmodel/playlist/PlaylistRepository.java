@@ -1,6 +1,5 @@
-package com.mondiamedia.app.io.repository;
+package com.mondiamedia.app.domainmodel.playlist;
 
-import com.mondiamedia.app.io.entity.PlaylistEntity;
 import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

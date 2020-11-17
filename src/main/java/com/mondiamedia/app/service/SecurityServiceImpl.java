@@ -1,7 +1,7 @@
 package com.mondiamedia.app.service;
 
-import com.mondiamedia.app.io.entity.TokenEntity;
-import com.mondiamedia.app.io.repository.TokenRepository;
+import com.mondiamedia.app.domainmodel.security.TokenEntity;
+import com.mondiamedia.app.domainmodel.security.TokenRepository;
 import com.mondiamedia.app.service.api.SecurityService;
 import com.mondiamedia.app.service.security.TokenDTO;
 import java.util.List;

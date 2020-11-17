@@ -1,5 +1,6 @@
-package com.mondiamedia.app.io.entity;
+package com.mondiamedia.app.domainmodel.playlist;
 
+import com.mondiamedia.app.domainmodel.article.ArticleEntity;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;

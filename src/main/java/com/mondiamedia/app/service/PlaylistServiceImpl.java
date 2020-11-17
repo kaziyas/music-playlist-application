@@ -1,9 +1,9 @@
 package com.mondiamedia.app.service;
 
 import com.mondiamedia.app.exceptions.PlaylistServiceException;
-import com.mondiamedia.app.io.entity.ArticleEntity;
-import com.mondiamedia.app.io.entity.PlaylistEntity;
-import com.mondiamedia.app.io.repository.PlaylistRepository;
+import com.mondiamedia.app.domainmodel.article.ArticleEntity;
+import com.mondiamedia.app.domainmodel.playlist.PlaylistEntity;
+import com.mondiamedia.app.domainmodel.playlist.PlaylistRepository;
 import com.mondiamedia.app.service.api.PlaylistService;
 import com.mondiamedia.app.service.article.ArticleDTO;
 import com.mondiamedia.app.service.playlist.PlaylistDTO;

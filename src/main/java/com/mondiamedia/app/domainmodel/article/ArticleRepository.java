@@ -1,6 +1,5 @@
-package com.mondiamedia.app.io.repository;
+package com.mondiamedia.app.domainmodel.article;
 
-import com.mondiamedia.app.io.entity.ArticleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

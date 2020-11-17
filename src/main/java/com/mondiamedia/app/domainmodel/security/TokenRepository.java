@@ -1,6 +1,5 @@
-package com.mondiamedia.app.io.repository;
+package com.mondiamedia.app.domainmodel.security;
 
-import com.mondiamedia.app.io.entity.TokenEntity;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -1,10 +1,11 @@
-package com.mondiamedia.app.io.repository;
+package com.mondiamedia.app.domainmodel.repository;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.mondiamedia.app.io.entity.ArticleEntity;
-import com.mondiamedia.app.io.entity.PlaylistEntity;
+import com.mondiamedia.app.domainmodel.article.ArticleEntity;
+import com.mondiamedia.app.domainmodel.playlist.PlaylistEntity;
+import com.mondiamedia.app.domainmodel.playlist.PlaylistRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

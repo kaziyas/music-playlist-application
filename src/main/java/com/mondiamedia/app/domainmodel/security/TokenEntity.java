@@ -1,4 +1,4 @@
-package com.mondiamedia.app.io.entity;
+package com.mondiamedia.app.domainmodel.security;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
