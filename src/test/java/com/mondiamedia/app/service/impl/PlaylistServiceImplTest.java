@@ -17,7 +17,7 @@ import com.mondiamedia.app.domainmodel.playlist.PlaylistRepository;
 import com.mondiamedia.app.service.PlaylistServiceImpl;
 import com.mondiamedia.app.service.article.ArticleDTO;
 import com.mondiamedia.app.service.playlist.PlaylistDTO;
-import com.mondiamedia.app.service.shared.IdGeneratorUtils;
+import com.mondiamedia.app.service.shared.IdGeneratorUtil;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,9 +70,7 @@ public class PlaylistServiceImplTest {
 
     assertThrows(
         PlaylistServiceException.class,
-        () -> {
-          playlistService.getPlaylistByPlaylistId(PLAYLIST_ID);
-        });
+        () -> playlistService.getPlaylistByPlaylistId(PLAYLIST_ID));
   }
 
   @Test
@@ -82,9 +80,7 @@ public class PlaylistServiceImplTest {
 
     assertThrows(
         PlaylistServiceException.class,
-        () -> {
-          playlistService.createPlaylist(playlistDTO);
-        });
+        () -> playlistService.createPlaylist(playlistDTO));
   }
 
   private PlaylistDTO getPlaylistDTO() {
@@ -100,7 +96,7 @@ public class PlaylistServiceImplTest {
   @Test
   final void testCreatePlaylist() {
     when(playlistRepository.findByTitle(anyString())).thenReturn(null);
-    when(IdGeneratorUtils.generatePlaylistId(anyInt())).thenReturn(PLAYLIST_ID);
+    when(IdGeneratorUtil.generatePlaylistId(anyInt())).thenReturn(PLAYLIST_ID);
     when(playlistRepository.save(any(Playlist.class))).thenReturn(playlist);
 
     PlaylistDTO playlistDTO = getPlaylistDTO();

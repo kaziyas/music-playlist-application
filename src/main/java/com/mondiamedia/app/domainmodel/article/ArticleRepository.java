@@ -8,6 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @since 1.0
  */
 public interface ArticleRepository extends JpaRepository<Article, Long> {
-
   Article findByArticleId(String articleId);
 }

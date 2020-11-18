@@ -23,7 +23,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class PlaylistRepositoryTest {
-  static boolean recordsCreated = false;
+  static final boolean recordsCreated = false;
   final String PLAYLIST_ID = "5AK81zVunje384aLOyjEywqFR862xl";
   @Autowired PlaylistRepository playlistRepository;
 

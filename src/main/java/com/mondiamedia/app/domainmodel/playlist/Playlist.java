@@ -23,7 +23,6 @@ import lombok.Setter;
 @Setter
 @Entity(name = "PLAYLIST")
 public class Playlist implements Serializable {
-
   @Id @GeneratedValue private long id;
 
   @Column(nullable = false, length = 30)

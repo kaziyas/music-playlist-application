@@ -9,9 +9,7 @@ import java.util.List;
  * @since 1.0
  */
 public interface ArticleService {
-  List<ArticleDTO> getArticles(String playlistId);
-
   ArticleDTO getArticleByArticleId(String articleId);
 
-  void saveSearchedArticles(List<ArticleDTO> articles);
+  List<ArticleDTO> saveSearchedArticles(List<ArticleDTO> articles);
 }

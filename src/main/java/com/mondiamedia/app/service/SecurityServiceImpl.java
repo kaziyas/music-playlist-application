@@ -22,17 +22,16 @@ public class SecurityServiceImpl implements SecurityService {
 
   @Override
   public TokenDTO getToken() {
-    ModelMapper mapper = new ModelMapper();
-
     List<Token> tokenList = tokenRepository.findByIdOrderByIdDesc(0L);
     if (tokenList.isEmpty()) return new TokenDTO();
+
+    ModelMapper mapper = new ModelMapper();
     return mapper.map(tokenList.get(0), TokenDTO.class);
   }
 
   @Override
   public TokenDTO saveToken(TokenDTO tokenDTO) {
     ModelMapper mapper = new ModelMapper();
-
     Token token = mapper.map(tokenDTO, Token.class);
     Token savedToken = tokenRepository.save(token);
     return mapper.map(savedToken, TokenDTO.class);

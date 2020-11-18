@@ -3,11 +3,11 @@ package com.mondiamedia.app.service;
 import com.mondiamedia.app.domainmodel.article.Article;
 import com.mondiamedia.app.domainmodel.playlist.Playlist;
 import com.mondiamedia.app.domainmodel.playlist.PlaylistRepository;
-import com.mondiamedia.app.service.playlist.PlaylistServiceException;
-import com.mondiamedia.app.service.playlist.PlaylistService;
 import com.mondiamedia.app.service.article.ArticleDTO;
 import com.mondiamedia.app.service.playlist.PlaylistDTO;
-import com.mondiamedia.app.service.shared.IdGeneratorUtils;
+import com.mondiamedia.app.service.playlist.PlaylistService;
+import com.mondiamedia.app.service.playlist.PlaylistServiceException;
+import com.mondiamedia.app.service.shared.IdGeneratorUtil;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -35,10 +35,8 @@ public class PlaylistServiceImpl implements PlaylistService {
 
     ModelMapper modelMapper = new ModelMapper();
     Playlist playlist = modelMapper.map(playlistDTO, Playlist.class);
-
-    String publicPlaylistId = IdGeneratorUtils.generatePlaylistId(30);
+    String publicPlaylistId = IdGeneratorUtil.generatePlaylistId(30);
     playlist.setPlaylistId(publicPlaylistId);
-
     Playlist storedPlaylistDetail = playlistRepository.save(playlist);
     return modelMapper.map(storedPlaylistDetail, PlaylistDTO.class);
   }
@@ -55,16 +53,15 @@ public class PlaylistServiceImpl implements PlaylistService {
   }
 
   @Override
-  public PlaylistDTO updatePlayList(String playlistId, PlaylistDTO playlist) {
-    List<Article> articleEntities;
-    ModelMapper modelMapper = new ModelMapper();
-
-    Playlist playlistEntity = playlistRepository.findByPlaylistId(playlistId);
-    if (playlistEntity == null) {
+  public PlaylistDTO updatePlayList(String playlistId, PlaylistDTO playlistDTO) {
+    Playlist playlist = playlistRepository.findByPlaylistId(playlistId);
+    if (playlist == null) {
       throw new PlaylistServiceException("Playlist with ID: " + playlistId + " not found");
     }
 
-    final List<ArticleDTO> articles = playlist.getArticles();
+    List<Article> articleEntities;
+    ModelMapper modelMapper = new ModelMapper();
+    final List<ArticleDTO> articles = playlistDTO.getArticles();
     if (articles != null) { // add or remove article
       IntStream.range(0, articles.size())
           .forEach(
@@ -72,32 +69,42 @@ public class PlaylistServiceImpl implements PlaylistService {
                 ArticleDTO article = articles.get(i);
                 articles.set(i, article);
               });
-
       articleEntities =
           articles.stream()
               .map(articleDTO -> modelMapper.map(articleDTO, Article.class))
               .collect(Collectors.toList());
-    } else { // update playlist
-      articleEntities = playlistEntity.getArticles();
+    } else { // update playlistDTO
+      articleEntities = playlist.getArticles();
     }
 
-    playlistEntity.setTitle(playlist.getTitle());
-    playlistEntity.setDescription(playlist.getDescription());
-    playlistEntity.setArticles(articleEntities);
-
-    Playlist updatePlayList = playlistRepository.save(playlistEntity);
-
+    playlist.setTitle(playlistDTO.getTitle());
+    playlist.setDescription(playlistDTO.getDescription());
+    playlist.setArticles(articleEntities);
+    Playlist updatePlayList = playlistRepository.save(playlist);
     return modelMapper.map(updatePlayList, PlaylistDTO.class);
   }
 
   @Override
   public void deletePlaylist(String id) {
     Playlist playlist = playlistRepository.findByPlaylistId(id);
-
     if (playlist == null) {
       throw new PlaylistServiceException("Playlist with ID: " + id + " not found");
     }
 
     playlistRepository.delete(playlist);
+  }
+
+  @Override
+  public List<ArticleDTO> getArticles(String playlistId) {
+    Playlist playlist = playlistRepository.findByPlaylistId(playlistId);
+    if (playlist == null) {
+      throw new PlaylistServiceException("Playlist with ID: " + playlistId + " not found");
+    }
+
+    ModelMapper modelMapper = new ModelMapper();
+    final List<Article> articles = playlist.getArticles();
+    return articles.stream()
+        .map(article -> modelMapper.map(article, ArticleDTO.class))
+        .collect(Collectors.toList());
   }
 }

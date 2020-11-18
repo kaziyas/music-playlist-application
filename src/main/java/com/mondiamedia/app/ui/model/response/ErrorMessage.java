@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 public final class ErrorMessage {
-
   private final Date timestamp;
   private final String message;
 }

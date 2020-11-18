@@ -25,15 +25,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig {
   @Bean
   public Docket apiDocket() {
-
     Contact contact =
         new Contact(
             "Yaser Kazerooni",
             "",
             "yaser.kazerooni@gmail.com");
 
-    List<VendorExtension> vendorExtensions = new ArrayList<VendorExtension>();
-
+    List<VendorExtension> vendorExtensions = new ArrayList<>();
     ApiInfo apiInfo =
         new ApiInfo(
             "Mondia Media app RESTful Web Service documentation",
