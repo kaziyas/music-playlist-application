@@ -17,7 +17,7 @@ public class SecurityConstants {
   public static final String HEADER_PARAMETER= "X-MM-GATEWAY-KEY";
 
   public static String getTokenSecret() {
-    AppProperties appProperties = (AppProperties) SpringApplicationContext.getBean(AppProperties.APP_PROPERTIES_BEAN_NAME);
+    AppProperties appProperties = (AppProperties) SpringApplicationContext.getBean(AppProperties.BEAN_NAME);
     return appProperties.getTokenSecret();
   }
 }
