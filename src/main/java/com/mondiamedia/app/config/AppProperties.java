@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class AppProperties {
-  public static final String BEAN_NAME = "AppProperties";
   private static final String PAGE_LIMIT = "mondiaplaylist.mondia.pagelimit";
   private static final String GATEWAY_KEY = "mondiaplaylist.mondia.gatewaykey";
   private static final String MONDIA_TOKEN_API_URL = "mondiaplaylist.mondia.tokenapi.url";

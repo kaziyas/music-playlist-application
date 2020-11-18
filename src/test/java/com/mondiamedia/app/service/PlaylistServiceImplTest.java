@@ -1,10 +1,9 @@
-package com.mondiamedia.app.service.impl;
+package com.mondiamedia.app.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -17,7 +16,6 @@ import com.mondiamedia.app.domainmodel.playlist.PlaylistRepository;
 import com.mondiamedia.app.service.PlaylistServiceImpl;
 import com.mondiamedia.app.service.article.ArticleDTO;
 import com.mondiamedia.app.service.playlist.PlaylistDTO;
-import com.mondiamedia.app.service.shared.IdGeneratorUtil;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,11 +40,11 @@ public class PlaylistServiceImplTest {
   Playlist playlist;
 
   @BeforeEach
-  void setUp() throws Exception {
+  void setUp() {
     MockitoAnnotations.initMocks(this);
 
     playlist = new Playlist();
-    playlist.setId(1l);
+    playlist.setId(1L);
     playlist.setPlaylistId(PLAYLIST_ID);
     playlist.setTitle("My best pop songs");
     playlist.setDescription("The best 90 decade pop songs");
@@ -59,7 +57,6 @@ public class PlaylistServiceImplTest {
     when(playlistRepository.findByPlaylistId(anyString())).thenReturn(playlist);
 
     PlaylistDTO playlistDTO = playlistService.getPlaylistByPlaylistId(PLAYLIST_ID);
-
     assertNotNull(playlistDTO);
     assertEquals("My best pop songs", playlistDTO.getTitle());
   }
@@ -76,8 +73,8 @@ public class PlaylistServiceImplTest {
   @Test
   final void testCreatePlaylist_CreatePlaylistServiceException() {
     when(playlistRepository.findByTitle(anyString())).thenReturn(playlist);
-    PlaylistDTO playlistDTO = getPlaylistDTO();
 
+    PlaylistDTO playlistDTO = getPlaylistDTO();
     assertThrows(
         PlaylistServiceException.class,
         () -> playlistService.createPlaylist(playlistDTO));
@@ -96,11 +93,9 @@ public class PlaylistServiceImplTest {
   @Test
   final void testCreatePlaylist() {
     when(playlistRepository.findByTitle(anyString())).thenReturn(null);
-    when(IdGeneratorUtil.generatePlaylistId(anyInt())).thenReturn(PLAYLIST_ID);
     when(playlistRepository.save(any(Playlist.class))).thenReturn(playlist);
 
     PlaylistDTO playlistDTO = getPlaylistDTO();
-
     PlaylistDTO storedPlaylistDetails = playlistService.createPlaylist(playlistDTO);
     assertNotNull(storedPlaylistDetails);
     assertEquals(playlist.getTitle(), storedPlaylistDetails.getTitle());
@@ -124,15 +119,12 @@ public class PlaylistServiceImplTest {
     List<ArticleDTO> articles = new ArrayList<>();
     articles.add(articleDTO);
     articles.add(articleDTO1);
-
     return articles;
   }
 
   private List<Article> getArticlesEntity() {
-    List<ArticleDTO> articles = getArticlesDTO();
-
     Type listType = new TypeToken<List<Article>>() {}.getType();
-
+    List<ArticleDTO> articles = getArticlesDTO();
     return new ModelMapper().map(articles, listType);
   }
 }

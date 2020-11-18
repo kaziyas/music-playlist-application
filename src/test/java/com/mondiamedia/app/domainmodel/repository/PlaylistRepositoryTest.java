@@ -1,7 +1,7 @@
 package com.mondiamedia.app.domainmodel.repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.mondiamedia.app.domainmodel.article.Article;
 import com.mondiamedia.app.domainmodel.playlist.Playlist;
@@ -23,28 +23,33 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class PlaylistRepositoryTest {
-  static final boolean recordsCreated = false;
+  static boolean recordsCreated = false;
   final String PLAYLIST_ID = "5AK81zVunje384aLOyjEywqFR862xl";
+
   @Autowired PlaylistRepository playlistRepository;
 
   @BeforeEach
-  void setUp() throws Exception {
-
-    if (!recordsCreated) createRecorods();
+  void setUp() {
+    if (!recordsCreated) createRecords();
   }
 
   @Test
   final void testFindPlaylistByTitle() {
     String title = "My best pop songs";
-    List<Playlist> playlists = playlistRepository.findAllByTitle(title);
-    assertNotNull(playlists);
-    assertTrue(playlists.size() == 2);
-
-    Playlist playlist = playlists.get(0);
-    assertTrue(playlist.getTitle().equals(title));
+    Playlist playlist = playlistRepository.findByTitle(title);
+    assertNotNull(playlist);
+    assertEquals(playlist.getTitle(), title);
+    assertNotNull(playlist.getArticles());
   }
 
-  private void createRecorods() {
+  @Test
+  final void testFindByPlaylistId() {
+    Playlist playlist = playlistRepository.findByPlaylistId(PLAYLIST_ID);
+    assertNotNull(playlist);
+    assertEquals(playlist.getPlaylistId(), PLAYLIST_ID);
+  }
+
+  private void createRecords() {
     Playlist playlist = new Playlist();
     playlist.setPlaylistId(PLAYLIST_ID);
     playlist.setTitle("My best pop songs");
@@ -59,12 +64,11 @@ public class PlaylistRepositoryTest {
     List<Article> articles = new ArrayList<>();
     articles.add(article);
     playlist.setArticles(articles);
-
     playlistRepository.save(playlist);
 
     Playlist playlist2 = new Playlist();
     playlist2.setPlaylistId("5656456");
-    playlist2.setTitle("My best pop songs");
+    playlist2.setTitle("My best new age songs");
     playlist2.setDescription("The best 90 decade roc songs");
     playlist2.setEmail("yaser.kazerooni@gmail.com");
 
@@ -76,7 +80,7 @@ public class PlaylistRepositoryTest {
     List<Article> articles2 = new ArrayList<>();
     articles2.add(article2);
     playlist.setArticles(articles2);
-
     playlistRepository.save(playlist2);
+    recordsCreated = true;
   }
 }

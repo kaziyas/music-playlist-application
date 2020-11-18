@@ -47,9 +47,8 @@ public class TokenInitializer {
 
   private String fetchToken() {
     HttpHeaders headers = new HttpHeaders();
-    headers.add(SecurityConstants.HEADER_PARAMETER, SecurityConstants.getTokenSecret());
+    headers.add(SecurityConstants.HEADER_PARAMETER, appProperties.getTokenSecret());
     HttpEntity<HttpHeaders> request = new HttpEntity<>(headers);
-
     ResponseEntity<String> response =
         restTemplate.exchange(
             appProperties.getMondiaTokenApiUrl(), HttpMethod.POST, request, String.class);
@@ -73,6 +72,7 @@ public class TokenInitializer {
 
   private static class TokenParser {
     private static TokenDTO parse(String jsonToken) {
+
       JsonReader jsonReader = Json.createReader(new StringReader(jsonToken));
       JsonObject jsonObject = jsonReader.readObject();
       return new TokenDTO(

@@ -69,7 +69,7 @@ public class SearchServiceImpl implements SearchService {
     HttpHeaders headers = new HttpHeaders();
     headers.add(
         SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token.getAccessToken());
-    headers.add(SecurityConstants.HEADER_PARAMETER, SecurityConstants.getTokenSecret());
+    headers.add(SecurityConstants.HEADER_PARAMETER, appProperties.getTokenSecret());
     return new HttpEntity<>(headers);
   }
 

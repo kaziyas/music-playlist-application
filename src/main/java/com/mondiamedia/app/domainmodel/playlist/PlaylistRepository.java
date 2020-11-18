@@ -14,6 +14,4 @@ public interface PlaylistRepository extends CrudRepository<Playlist, Long> {
   Playlist findByTitle(String title);
 
   Playlist findByPlaylistId(String playlistId);
-
-  List<Playlist> findAllByTitle(String title);
 }

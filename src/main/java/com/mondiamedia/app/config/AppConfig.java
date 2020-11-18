@@ -1,6 +1,5 @@
 package com.mondiamedia.app.config;
 
-import com.mondiamedia.app.SpringApplicationContext;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,11 +15,6 @@ public class AppConfig {
   @Bean
   public RestTemplate restTemplate(RestTemplateBuilder builder) {
     return builder.build();
-  }
-
-  @Bean
-  public SpringApplicationContext springApplicationContext() {
-    return new SpringApplicationContext();
   }
 
   @Bean(name="AppProperties")
