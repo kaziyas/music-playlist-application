@@ -11,6 +11,7 @@ import com.mondiamedia.app.ui.model.response.ErrorMessages;
 import com.mondiamedia.app.ui.model.response.OperationStatusModel;
 import com.mondiamedia.app.ui.model.response.PlaylistRest;
 import com.mondiamedia.app.ui.model.response.RequestOperationStatus;
+import io.swagger.annotations.ApiOperation;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,9 @@ public class PlaylistController {
     this.articleService = articleService;
   }
 
+  @ApiOperation(
+      value = "The Get Playlist Web Service Endpoint",
+      notes = "${playlistController.getPlaylist.ApiOperation.Notes}")
   @GetMapping(
       path = "/{id}",
       produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -53,6 +57,9 @@ public class PlaylistController {
     return modelMapper.map(playlistDTO, PlaylistRest.class);
   }
 
+  @ApiOperation(
+      value = "The Create Playlist Web Service Endpoint",
+      notes = "${playlistController.createPlaylist.ApiOperation.Notes}")
   @PostMapping(
       consumes = {MediaType.APPLICATION_JSON_VALUE},
       produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -69,6 +76,9 @@ public class PlaylistController {
     return modelMapper.map(createdPlaylist, PlaylistRest.class);
   }
 
+  @ApiOperation(
+      value = "The Update Playlist Web Service Endpoint",
+      notes = "${playlistController.updatePlaylist.ApiOperation.Notes}")
   @PutMapping(
       path = "/{id}",
       consumes = {MediaType.APPLICATION_JSON_VALUE},
@@ -83,6 +93,9 @@ public class PlaylistController {
     return modelMapper.map(playlistDTO, PlaylistRest.class);
   }
 
+  @ApiOperation(
+      value = "The Delete Playlist Web Service Endpoint",
+      notes = "${playlistController.deletePlaylist.ApiOperation.Notes}")
   @DeleteMapping(
       path = "/{id}",
       produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -95,6 +108,9 @@ public class PlaylistController {
     return returnValue;
   }
 
+  @ApiOperation(
+      value = "The Add An Article In Playlist Web Service Endpoint",
+      notes = "${playlistController.addArticle.ApiOperation.Notes}")
   @PutMapping(
       path = "/{id}/articles/{articleId}",
       produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -107,6 +123,9 @@ public class PlaylistController {
     return modelMapper.map(playlistDTO, PlaylistRest.class);
   }
 
+  @ApiOperation(
+      value = "The Remove An Article From Playlist Web Service Endpoint",
+      notes = "${playlistController.removeArticle.ApiOperation.Notes}")
   @DeleteMapping(
       path = "/{id}/articles/{articleId}",
       produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -123,6 +142,9 @@ public class PlaylistController {
     return modelMapper.map(playlistDTO, PlaylistRest.class);
   }
 
+  @ApiOperation(
+      value = "The Get Articles From A Playlist Web Service Endpoint",
+      notes = "${playlistController.getArticles.ApiOperation.Notes}")
   @GetMapping(
       path = "/{id}/articles",
       produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_JSON_VALUE})

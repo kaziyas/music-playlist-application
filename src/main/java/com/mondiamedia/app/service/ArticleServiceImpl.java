@@ -40,9 +40,12 @@ public class ArticleServiceImpl implements ArticleService {
   @Override
   public void saveSearchedArticles(List<ArticleDTO> articles) {
     ModelMapper modelMapper = new ModelMapper();
-    articles.stream()
-        .filter(articleDTO -> articleRepository.findByArticleId(articleDTO.getArticleId()) == null)
-        .map(articleDTO -> modelMapper.map(articleDTO, Article.class))
-        .map(articleRepository::save);
+    for (ArticleDTO articleDTO : articles) {
+      if (articleRepository.findByArticleId(articleDTO.getArticleId()) != null)
+        continue; // duplicate article
+
+      Article entity = modelMapper.map(articleDTO, Article.class);
+      articleRepository.save(entity);
+    }
   }
 }
