@@ -48,7 +48,7 @@ public class ContentController {
 
     List<ArticleDTO> articles =
         searchService.searchArticle(createQueryString(articleRequestModel), offset);
-    articles = articleService.saveSearchedArticles(articles);
+    articleService.saveSearchedArticles(articles);
 
     List<ArticleRest> returnValue = new ArrayList<>();
     if (articles != null && !articles.isEmpty()) {

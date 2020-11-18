@@ -7,7 +7,6 @@ import com.mondiamedia.app.service.article.ArticleDTO;
 import com.mondiamedia.app.service.article.ArticleService;
 import com.mondiamedia.app.service.article.ArticleServiceException;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -39,13 +38,11 @@ public class ArticleServiceImpl implements ArticleService {
   }
 
   @Override
-  public List<ArticleDTO> saveSearchedArticles(List<ArticleDTO> articles) {
+  public void saveSearchedArticles(List<ArticleDTO> articles) {
     ModelMapper modelMapper = new ModelMapper();
-    return articles.stream()
+    articles.stream()
         .filter(articleDTO -> articleRepository.findByArticleId(articleDTO.getArticleId()) == null)
         .map(articleDTO -> modelMapper.map(articleDTO, Article.class))
-        .map(articleRepository::save)
-        .map(storedArticle -> modelMapper.map(storedArticle, ArticleDTO.class))
-        .collect(Collectors.toList());
+        .map(articleRepository::save);
   }
 }
