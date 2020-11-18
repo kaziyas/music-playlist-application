@@ -1,5 +1,6 @@
 package com.mondiamedia.app.security;
 
+import com.mondiamedia.app.config.AppProperties;
 import com.mondiamedia.app.service.security.SecurityService;
 import com.mondiamedia.app.service.security.TokenDTO;
 import java.io.StringReader;
@@ -47,12 +48,11 @@ public class TokenInitializer {
   private String fetchToken() {
     HttpHeaders headers = new HttpHeaders();
     headers.add(SecurityConstants.HEADER_PARAMETER, SecurityConstants.getTokenSecret());
-    HttpEntity<HttpHeaders> request = new HttpEntity<HttpHeaders>(headers);
+    HttpEntity<HttpHeaders> request = new HttpEntity<>(headers);
 
     ResponseEntity<String> response =
         restTemplate.exchange(
             appProperties.getMondiaTokenApiUrl(), HttpMethod.POST, request, String.class);
-
     return response.getBody();
   }
 

@@ -1,8 +1,8 @@
 package com.mondiamedia.app.ui.controller;
 
-import com.mondiamedia.app.service.article.ArticleService;
-import com.mondiamedia.app.service.api.SearchService;
 import com.mondiamedia.app.service.article.ArticleDTO;
+import com.mondiamedia.app.service.article.ArticleService;
+import com.mondiamedia.app.service.content.SearchService;
 import com.mondiamedia.app.ui.model.request.ArticleRequestModel;
 import com.mondiamedia.app.ui.model.response.ArticleRest;
 import io.swagger.annotations.ApiOperation;
@@ -45,12 +45,12 @@ public class ContentController {
   public List<ArticleRest> searchArticle(
       @RequestBody ArticleRequestModel articleRequestModel,
       @RequestParam(value = "offset", defaultValue = "0") String offset) {
-    List<ArticleRest> returnValue = new ArrayList<>();
+
     List<ArticleDTO> articles =
         searchService.searchArticle(createQueryString(articleRequestModel), offset);
+    articles = articleService.saveSearchedArticles(articles);
 
-    articleService.saveSearchedArticles(articles);
-
+    List<ArticleRest> returnValue = new ArrayList<>();
     if (articles != null && !articles.isEmpty()) {
       Type listType = new TypeToken<List<ArticleRest>>() {}.getType();
       returnValue = new ModelMapper().map(articles, listType);
@@ -62,7 +62,6 @@ public class ContentController {
     StringJoiner joiner = new StringJoiner(" , ");
     joiner.add(articleRequestModel.getArtistName());
     joiner.add(articleRequestModel.getTrackName());
-
     return joiner.toString();
   }
 }

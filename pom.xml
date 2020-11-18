@@ -2,6 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -9,16 +10,30 @@
     <version>2.3.4.RELEASE</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
-  <groupId>com.mondiamedia</groupId>
-  <artifactId>app</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>app</name>
-  <description>This task provided by Mondia Company</description>
 
+  <!--Project details -->
+  <groupId>com.mondiamedia</groupId>
+  <artifactId>mondia-music-playlist-application</artifactId>
+  <version>0.0.3-SNAPSHOT</version>
+  <name>Mondia Music Playlist Application</name>
+  <description>This application provided by technical team in the Mondia Media Company.</description>
+
+  <!--Developer contact details -->
+  <developers>
+    <developer>
+      <id>kazerooni</id>
+      <name>Yaser Kazerooni</name>
+      <email>yaser.kazerooni@gmail.com</email>
+      <organization>Mondia Media GmbH.</organization>
+    </developer>
+  </developers>
+
+  <!--This project developed using java 8 features -->
   <properties>
     <java.version>1.8</java.version>
   </properties>
 
+ <!--Spring boot dependencies -->
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -28,21 +43,10 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
-
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-devtools</artifactId>
       <scope>runtime</scope>
-      <optional>true</optional>
-    </dependency>
-    <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
       <optional>true</optional>
     </dependency>
     <dependency>
@@ -57,32 +61,40 @@
       </exclusions>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
+    <!--H2 database dependency -->
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
+    <!--Lombok framework dependency -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+    <!--Model mapper framework dependency -->
+    <dependency>
+      <groupId>org.modelmapper</groupId>
+      <artifactId>modelmapper</artifactId>
+      <version>2.3.0</version>
+    </dependency>
+
+    <!--Swagger dependency -->
     <dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-swagger2</artifactId>
       <version>2.9.2</version>
     </dependency>
-
-    <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
     <dependency>
       <groupId>io.springfox</groupId>
       <artifactId>springfox-swagger-ui</artifactId>
       <version>2.9.2</version>
     </dependency>
 
-
-    <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
-    <dependency>
-      <groupId>io.jsonwebtoken</groupId>
-      <artifactId>jjwt</artifactId>
-      <version>0.9.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.modelmapper</groupId>
-      <artifactId>modelmapper</artifactId>
-      <version>2.3.0</version>
-    </dependency>
+    <!--Apache Johnzon dependency -->
     <dependency>
       <groupId>org.apache.johnzon</groupId>
       <artifactId>johnzon-core</artifactId>
@@ -93,13 +105,11 @@
       <artifactId>johnzon-jaxrs</artifactId>
       <version>1.2.8</version>
     </dependency>
-
     <dependency>
       <groupId>org.apache.aries.spifly</groupId>
       <artifactId>org.apache.aries.spifly.dynamic.bundle</artifactId>
       <version>1.3.2</version>
     </dependency>
-
     <dependency>
       <groupId>org.apache.geronimo.specs</groupId>
       <artifactId>geronimo-json_1.1_spec</artifactId>

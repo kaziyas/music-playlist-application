@@ -1,4 +1,4 @@
-package com.mondiamedia.app.security;
+package com.mondiamedia.app.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -11,16 +11,16 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class AppProperties {
-  private static final String PAGE_LIMIT ="PageLimit";
-  private static final String MONDIA_TOKEN_API_URL ="MondiaTokenApiUrl";
-  private static final String MONDIA_SEARCH_API_URL="MondiaSearchApiUrl";
-
-  public static final String APP_PROPERTIES_BEAN_NAME ="AppProperties";
+  public static final String APP_PROPERTIES_BEAN_NAME = "AppProperties";
+  private static final String PAGE_LIMIT = "mondiaplaylist.mondia.pagelimit";
+  private static final String GATEWAY_KEY = "mondiaplaylist.mondia.gatewaykey";
+  private static final String MONDIA_TOKEN_API_URL = "mondiaplaylist.mondia.tokenapi.url";
+  private static final String MONDIA_SEARCH_API_URL = "mondiaplaylist.mondia.searchapi.url";
 
   @Autowired private Environment env;
 
   public String getTokenSecret() {
-    return env.getProperty(SecurityConstants.GATEWAY_KEY);
+    return env.getProperty(GATEWAY_KEY);
   }
 
   public String getPageLimit() {
