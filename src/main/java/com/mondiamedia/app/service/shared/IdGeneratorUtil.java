@@ -20,10 +20,9 @@ public class IdGeneratorUtil {
 
   private static String generateRandomString(int length) {
     StringBuilder returnValue = new StringBuilder(length);
-
-    IntStream.range(0, length)
-        .map(i -> ALPHABET.charAt(random.nextInt(ALPHABET.length())))
-        .forEachOrdered(returnValue::append);
+    for (int i = 0; i < length; ++i) {
+      returnValue.append(ALPHABET.charAt(random.nextInt(ALPHABET.length())));
+    }
     return new String(returnValue);
   }
 }
