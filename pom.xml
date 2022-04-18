@@ -12,19 +12,18 @@
   </parent>
 
   <!--Project details -->
-  <groupId>com.mondiamedia</groupId>
-  <artifactId>mondia-music-playlist-application</artifactId>
+  <groupId>com.media</groupId>
+  <artifactId>media-music-playlist-application</artifactId>
   <version>0.0.3-SNAPSHOT</version>
-  <name>Mondia Music Playlist Application</name>
-  <description>This application provided by technical team in the Mondia Media Company.</description>
+  <name>Music Playlist Application</name>
+  <description>This is an application to call sample APIs</description>
 
   <!--Developer contact details -->
   <developers>
     <developer>
-      <id>kazerooni</id>
+      <id>YKazerooni</id>
       <name>Yaser Kazerooni</name>
       <email>yaser.kazerooni@gmail.com</email>
-      <organization>Mondia Media GmbH.</organization>
     </developer>
   </developers>
 
@@ -72,7 +71,6 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <optional>true</optional>
     </dependency>
 
     <!--Model mapper framework dependency -->
