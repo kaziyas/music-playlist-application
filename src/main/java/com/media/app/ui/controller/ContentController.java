@@ -50,12 +50,7 @@ public class ContentController {
         searchService.searchArticle(createQueryString(articleRequestModel), offset);
     articleService.saveSearchedArticles(articles);
 
-    List<ArticleRest> returnValue = new ArrayList<>();
-    if (articles != null && !articles.isEmpty()) {
-      Type listType = new TypeToken<List<ArticleRest>>() {}.getType();
-      returnValue = new ModelMapper().map(articles, listType);
-    }
-    return returnValue;
+    return articleService.getArticles(articles);
   }
 
   private String createQueryString(ArticleRequestModel articleRequestModel) {

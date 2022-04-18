@@ -7,8 +7,13 @@ import com.media.app.domainmodel.article.Article;
 import com.media.app.domainmodel.article.ArticleRepository;
 import com.media.app.domainmodel.playlist.PlaylistRepository;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
+
+import com.media.app.ui.model.response.ArticleRest;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 
 /**
@@ -49,4 +54,15 @@ public class ArticleServiceImpl implements ArticleService {
       articleRepository.save(entity);
     }
   }
+
+  @Override
+  public List<ArticleRest> getArticles(List<ArticleDTO> articles) {
+    List<ArticleRest> returnValue = new ArrayList<>();
+    if (articles != null && !articles.isEmpty()) {
+      Type listType = new TypeToken<List<ArticleRest>>() {}.getType();
+      returnValue = new ModelMapper().map(articles, listType);
+    }
+    return returnValue;
+  }
+
 }

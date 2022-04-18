@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 1.0
  */
 @RestController
-@RequestMapping("/playlists") // http://localhost:9100/mondia-app/playlists
+@RequestMapping("/playlists") // http://localhost:9100/media-app/playlists
 public class PlaylistController {
   private final PlaylistService playlistService;
   private final ArticleService articleService;
@@ -151,11 +151,6 @@ public class PlaylistController {
   public List<ArticleRest> getArticles(@PathVariable String id) {
     List<ArticleDTO> articles = playlistService.getArticles(id);
 
-    List<ArticleRest> returnValue = new ArrayList<>();
-    if (articles != null && !articles.isEmpty()) {
-      Type listType = new TypeToken<List<ArticleRest>>() {}.getType();
-      returnValue = new ModelMapper().map(articles, listType);
-    }
-    return returnValue;
+    return articleService.getArticles(articles);
   }
 }

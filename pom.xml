@@ -13,15 +13,15 @@
 
   <!--Project details -->
   <groupId>com.media</groupId>
-  <artifactId>media-music-playlist-application</artifactId>
+  <artifactId>music-playlist-application</artifactId>
   <version>0.0.3-SNAPSHOT</version>
   <name>Music Playlist Application</name>
-  <description>This is an application to call sample APIs</description>
+  <description>This is an application to call sample REST APIs</description>
 
   <!--Developer contact details -->
   <developers>
     <developer>
-      <id>YKazerooni</id>
+      <id>Yaser-Kazerooni</id>
       <name>Yaser Kazerooni</name>
       <email>yaser.kazerooni@gmail.com</email>
     </developer>
