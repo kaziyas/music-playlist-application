@@ -68,7 +68,7 @@ public class PlaylistControllerTest {
   final void testCreatePlaylistServiceException() {
     when(playlistService.getPlaylistByPlaylistId(anyString())).thenReturn(playlistDTO);
 
-    playlistDetails.setTitle("My Playlist");
+    playlistDetails.setTitle("");
     assertThrows(
         PlaylistServiceExceptionApp.class, () -> playlistController.createPlaylist(playlistDetails));
   }
